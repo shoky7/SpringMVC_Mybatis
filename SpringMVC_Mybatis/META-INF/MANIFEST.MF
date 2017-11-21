@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: SpringMVC_Mybatis
+Bundle-SymbolicName: SpringMVC_Mybatis
+Bundle-Version: 1.0.0.qualifier
+Export-Package: kr.koreait.DAO,
+ kr.koreait.SpringMVC_Mybatis.controller,
+ kr.koreait.SpringMVC_Mybatis.vo
