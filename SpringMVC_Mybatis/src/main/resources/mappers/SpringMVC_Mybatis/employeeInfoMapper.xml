@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.koreait.SpringMVC_Mybatis.mapper.EmployeeInfo">
+	<select id="getWorkingStatus" resultType="hashmap">
+		select * from workingstatus
+	</select>
+	
+	<select id="getDispatch" resultType="hashmap">
+		select * from dispatch
+	</select>
+	 
+	<select id="getRank" resultType="hashmap">
+		select * from rank
+	</select>
+	
+	<select id="getJob" resultType="hashmap">
+		select * from job
+	</select>
+	
+
+
+</mapper>

@@ -12,11 +12,7 @@
 		<script src="<C:out value="${myContext}"/>/resources/assets/jquery/jquery-3.2.1.min.js"></script>
 		<script src="<C:out value="${myContext}"/>/resources/assets/vendor/popper.min.js"></script>
 		<script src="<C:out value="${myContext}"/>/resources/assets/bootstrap/js/bootstrap.min.js"></script>
-		<script>
-			$(document).ready(function() {
-				$('#workingStatus').append("<option value=''>(선택)</option>");
-			})
-		</script>
+
 	</head>
 	<body>
     <nav class="navbar navbar-expand-md navbar-light bg-light mb-4">
@@ -54,14 +50,19 @@
 					<td>근무상태 &nbsp</td>
 					<td> 
 						<select id="workingStatus" name="workingStatus" class="form-control">
+						<option>(선택)</option>
+						<C:forEach var="map" items="${workStatus}">
+							<option value="${map.get("SEQ")}">${map.get("STATUS")}</option>						
+						</C:forEach>
 						</select>
 					</td>
 					<td>파견상태 &nbsp</td>
 					<td> 
 						<select name="dispatch" class="form-control">
-							<option>(선택)</option>
-							<option value="input">투입</option>
-							<option value="wait">대기</option>
+						<option>(선택)</option>
+						<C:forEach var="map" items="${dispatch}">
+							<option value="${map.get("SEQ")}">${map.get("DISPATCH")}</option>						
+						</C:forEach>
 						</select>
 					</td>
 				</tr>
@@ -69,13 +70,10 @@
 				<td>직위 &nbsp</td>
 					<td>
 						<select name="rank" class="form-control">
-							<option>(선택)</option>
-							<option value="ceo">사장</option>
-							<option value="director">이사</option>
-							<option value="conductor">차장</option>
-							<option value="exaggeration">과장</option>
-							<option value="dary">대리</option>
-							<option value="Temple">사원</option>
+						<option>(선택)</option>
+						<C:forEach var="map" items="${rank}">
+							<option value="${map.get("SEQ")}">${map.get("RANK")}</option>						
+						</C:forEach>
 						</select>
 					</td>
 					<td>입사일자 &nbsp</td>
@@ -89,12 +87,10 @@
 					<td>직종분류 &nbsp</td>
 					<td>
 						<select name="Job" class="form-control">
-							<option>(선택)</option>
-							<option value="publisher">퍼블리셔</option>
-							<option value="webdesigner">웹디자이너</option>
-							<option value="developer">개발자</option>
-							<option value="dba">DBA</option>
-							<option value="admin">관리자</option>
+						<option>(선택)</option>
+						<C:forEach var="map" items="${job}">
+							<option value="${map.get("SEQ")}">${map.get("JOB")}</option>						
+						</C:forEach>
 						</select>
 					</td>
 				</tr>
