@@ -70,7 +70,6 @@ public class EmployeeController {
 		model.addAttribute("mil_level", mil_level_list);
 		model.addAttribute("kosa_reg_yn", kosa_reg_yn_list);
 		model.addAttribute("kosa_class_code", kosa_class_code_list);
-		
 		return "HumanResourceManagement/employeeRegistration";
 	}
 	

@@ -9,22 +9,60 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<link href="<C:out value="${myContext}"/>/resources/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		<link href="<C:out value="${myContext}"/>/resources/assets/commons/css/navbar-top.css" rel="stylesheet">
+		<link href="<C:out value="${myContext}"/>/resources/assets/fontawesome/css/font-awesome.min.css" rel="stylesheet">
 		<script src="<C:out value="${myContext}"/>/resources/assets/jquery/jquery-3.2.1.min.js"></script>
+		<script src="<C:out value="${myContext}"/>/resources/assets/jquery/jquery.form.js"></script>
 		<script src="<C:out value="${myContext}"/>/resources/assets/vendor/popper.min.js"></script>
 		<script src="<C:out value="${myContext}"/>/resources/assets/bootstrap/js/bootstrap.min.js"></script>
-		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-		<script>
-		function registration() {
-			 $("#formReg").submit();
-		}
-		
-			
-		
-		
-</script>
+<!-- 		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script> -->
 		<style>
 			span{ color:red; }
+			.humanImage{
+				border: solid 1px #ced4da;
+				width:327px;
+				height:340px;
+			}
+			.humanImageSize{
+				width:326px;
+				height:339px;
+			}
 		</style>
+		<script>
+		function registration() {
+			$("#formReg").submit();
+		}
+		
+			$(document).ready(function() {
+				$('#imageUploadBtn').click(function(){
+					var form = $('<form></form>');
+					var formData = new FormData(form);
+					
+					formData.append('humanImageUpload', $('#humanImageUpload')[0].files[0]);
+					if($('#humanImageUpload').val()) {
+						$.ajax({
+				            url: 			'/SpringMVC_Mybatis/fileProcessing/upload',
+				            type: 			'POST',
+				            enctype:		'multipart/form-data',
+				            processData: 	false,  // file전송시 필수
+	    	    	        contentType: 	false,  // file전송시 필수
+				            data: 			formData,
+				            error: function(req){
+								alert(req);
+				            },
+				            success: function(result){
+				            	// JSON Text를 JSON Object로 변환
+				            	var resultObj = JSON.parse(result);
+				                var imagePath = '<C:out value="${myContext}"/>' + resultObj.filePath;
+				                console.log(imagePath);
+				                $('#humanImage').attr('src', imagePath);
+				            }
+						});
+					} else {
+						alert('이미지 등록 해야함!');
+					}
+				});
+			});
+		</script>
 	</head>
 	<body>
 	    <nav class="navbar navbar-expand-md navbar-light bg-light mb-4">
@@ -53,37 +91,45 @@
 			<table class="table">
 				<tbody>
 					<tr>
-						<td colspan="2" rowspan="6">사진</td>
+						<td colspan="2" rowspan="6">
+							<div class="humanImage">
+								<img id="humanImage" class="humanImageSize" src="<C:out value="${myContext}"/>/resources/image/human.png">
+							</div>
+							<div class="btn-group" style="width:327px">
+								<input type="file" name="humanImageUpload" id="humanImageUpload" class="form-control btn btn-info"/>
+								<button type="button" id="imageUploadBtn" class="btn btn-primary"><i class="fa fa-camera" aria-hidden="true"></i> 등록</button>
+							</div>
+						</td>
 						<td><span>*</span>사번</td>
 						<td><input type="text" name="sabun" class="form-control" disabled="disabled"></td>
-						<td>한글성명</td>
+						<td><span>*</span>한글성명</td>
 						<td><input type="text" name="name" class="form-control" maxlength="5"></td>
 						<td>영문성명</td>
-						<td><input type="text" name="eng_name" class="form-control"></td>
+						<td><input type="text" name="eng_name" class="form-control" maxlength="20"></td>
 					</tr>
 					<tr>
-						<td>아이디</td>
-						<td><input type="text" name="id" class="form-control"></td>
-						<td>패스워드</td>
-						<td><input type="password" name="pwd" class="form-control"></td>
-						<td>패스워드확인</td>
-						<td><input type="password" name="pwd2" class="form-control"></td>
+						<td><span>*</span>아이디</td>
+						<td><input type="text" name="id" class="form-control" maxlength="6"></td>
+						<td><span>*</span>패스워드</td>
+						<td><input type="password" name="pwd" class="form-control" maxlength="6"></td>
+						<td><span>*</span>패스워드확인</td>
+						<td><input type="password" name="pwd2" class="form-control" maxlength="6"></td>
 					</tr>
 					<tr>
 						<td>전화번호</td>
-						<td><input type="text" name="phone" class="form-control"></td>
-						<td>핸드폰번호</td>
-						<td><input type="text" name="hp" class="form-control"></td>
+						<td><input type="text" name="phone" class="form-control" maxlength="13"></td>
+						<td><span>*</span>핸드폰번호</td>
+						<td><input type="text" name="hp" class="form-control" maxlength="13"></td>
 						<td>주민번호</td>
-						<td><input type="text" name="reg_no" class="form-control"></td>
+						<td><input type="text" name="reg_no" class="form-control" maxlength="6"></td>
 					</tr>
 					<tr>
 						<td>연령</td>
-						<td><input type="text" name="years" class="form-control"></td>
-						<td>이메일</td>
+						<td><input type="text" name="years" class="form-control" maxlength="2"></td>
+						<td><span>*</span>이메일</td>
 						<td>
 							<div class="input-group">
-								<input type="text" name="email" class="form-control">
+								<input type="text" name="email" class="form-control" maxlength="10">
 								<select name="email" class="form-control">
 								<C:forEach var="map" items="${email}">
 									<option value="${map.get("EMAIL")}">${map.get("EMAIL")}</option>						
@@ -95,7 +141,7 @@
 						<td>
 							<div class="input-group">
 								<select name="job_type" class="form-control">
-								<option></option>
+								<option value=""></option>
 								<C:forEach var="map" items="${job_type}">
 									<option value="${map.get("JOB_TYPE")}">${map.get("JOB_TYPE")}</option>						
 								</C:forEach>
@@ -114,12 +160,12 @@
 						<td>주소</td>
 						<td>
 							<div class="input-group">
-								<input type="text" name="zip" class="form-control">
+								<input type="text" name="zip" class="form-control" maxlength="20">
 								<button  type="button" class="btn btn-secondary">주소검색</button>
 							</div>
 						</td>
-						<td colspan="2"><input type="text" name="addr1" class="form-control"></td>
-						<td colspan="2"><input type="text" name="addr2" class="form-control"></td>
+						<td colspan="2"><input type="text" name="addr1" class="form-control" maxlength="15"></td>
+						<td colspan="2"><input type="text" name="addr2" class="form-control" maxlength="15"></td>
 					</tr>
 					<tr>
 						<td>직위</td>
@@ -141,7 +187,7 @@
 							</select>
 						</td>
 						<td>연봉(만원)</td>
-						<td><input type="text" name="salary" class="form-control"></td>
+						<td><input type="text" name="salary" class="form-control" maxlength="10"></td>
 					</tr>
 					<tr>
 						<td>입사구분</td>
@@ -231,30 +277,30 @@
 					</tr>
 					<tr>
 						<td>사업자번호</td>
-						<td><input type="text" name="cmp_reg_no" class="form-control"></td>
+						<td><input type="text" name="cmp_reg_no" class="form-control" maxlength="12"></td>
 						<td>업체명</td>
-						<td><input type="text" name="crm_name" class="form-control"></td>
+						<td><input type="text" name="crm_name" class="form-control" maxlength="10"></td>
 						<td>사업자등록증</td>
 						<td><input type="text" name="cmp_reg_image" class="form-control"></td>
 						<td>
 							<button  type="button" class="btn btn-secondary">미리보기</button>
 						</td>
 						<td>
-							<button  type="button" class="btn btn-secondary">등록</button>
+							<button  type="button" class="btn btn-info">등록</button>
 						</td>
 					</tr>
 					<tr>
 						<td rowspan="2">자기소개</td>
 						<td colspan="3">
-							<textarea name="self_intro" class="form-control"></textarea>
+							<textarea name="self_intro" class="form-control" maxlength="30"></textarea>
 						</td>
 						<td>이력서</td>
-						<td><input type="text" name="carrier" class="form-control"></td>
+						<td><input type="text" name="carrier" class="form-control" ></td>
 						<td>
 							<button  type="button" class="btn btn-secondary">미리보기</button>
 						</td>
 						<td>
-							<button  type="button" class="btn btn-secondary">파일 업로드</button>
+							<button  type="button" class="btn btn-info">파일 업로드</button>
 						</td>
 					</tr>
 					<tr>
