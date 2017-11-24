@@ -25,7 +25,7 @@
               <h3 class="masthead-brand">IT & Biz</h3>
               <nav class="nav nav-masthead">
                 <a class="nav-link active" href="#">Home</a>
-                <a class="nav-link" href="#">Input</a>
+                <a class="nav-link" href="employee/registration">Input</a>
                 <a class="nav-link" href="employee/search">Search</a>
               </nav>
             </div>
@@ -33,7 +33,7 @@
 
           <main role="main" class="inner cover">
             <h1 class="cover-heading">인사 관리 시스템</h1>
-            <p class="lead">인사관리를 입력하겠습니다. &nbsp;&nbsp;&nbsp; <a href="#" class="btn btn-lg btn-secondary">입력</a></p>
+            <p class="lead">인사관리를 입력하겠습니다. &nbsp;&nbsp;&nbsp; <a href="employee/registration" class="btn btn-lg btn-secondary">입력</a></p>
             <p class="lead">인사관리를 조회하겠습니다. &nbsp;&nbsp;&nbsp; <a href="employee/search" class="btn btn-lg btn-secondary">조회</a></p>
           </main>
 

@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>Insert title here</title>
+		<title>직원리스트</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 		<link href="<C:out value="${myContext}"/>/resources/assets/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 		<link href="<C:out value="${myContext}"/>/resources/assets/commons/css/navbar-top.css" rel="stylesheet">
@@ -22,10 +22,10 @@
         </ul>
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="#">입력하기</a>
+        <a class="nav-link" href="/SpringMVC_Mybatis/employee/registration">입력하기</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/search">조회하기</a>
+        <a class="nav-link" href="/SpringMVC_Mybatis/employee/search">조회하기</a>
       </li>
     </ul>
       </div>
@@ -40,28 +40,28 @@
 				<tr>
 					<td>사번 &nbsp</td>
 					<td>
-						<input type="text" name="employeeNum" class="form-control">
+						<input type="text" name="sabun" class="form-control">
 					</td>
 					<td>성명 &nbsp</td>
 					<td>
-						<input type="text" name="employeeName" class="form-control">
+						<input type="text" name="name" class="form-control">
 					</td>
 					
-					<td>근무상태 &nbsp</td>
+					<td>입사구분 &nbsp</td>
 					<td> 
-						<select id="workingStatus" name="workingStatus" class="form-control">
+						<select name="join_gbn_code" class="form-control">
 						<option>(선택)</option>
-						<C:forEach var="map" items="${workStatus}">
-							<option value="${map.get("SEQ")}">${map.get("STATUS")}</option>						
+						<C:forEach var="map" items="${join_gbn_code}">
+							<option value="${map.get("JOIN_GBN_CODE")}">${map.get("JOIN_GBN_CODE")}</option>						
 						</C:forEach>
 						</select>
 					</td>
-					<td>파견상태 &nbsp</td>
+					<td>투입여부 &nbsp</td>
 					<td> 
-						<select name="dispatch" class="form-control">
+						<select name="put_yn" class="form-control">
 						<option>(선택)</option>
-						<C:forEach var="map" items="${dispatch}">
-							<option value="${map.get("SEQ")}">${map.get("DISPATCH")}</option>						
+						<C:forEach var="map" items="${put_yn}">
+							<option value="${map.get("PUT_YN")}">${map.get("PUT_YN")}</option>						
 						</C:forEach>
 						</select>
 					</td>
@@ -69,27 +69,27 @@
 				<tr>
 				<td>직위 &nbsp</td>
 					<td>
-						<select name="rank" class="form-control">
+						<select name="pos_gbn_code" class="form-control">
 						<option>(선택)</option>
-						<C:forEach var="map" items="${rank}">
-							<option value="${map.get("SEQ")}">${map.get("RANK")}</option>						
+						<C:forEach var="map" items="${pos_gbn_code}">
+							<option value="${map.get("POS_GBN_CODE")}">${map.get("POS_GBN_CODE")}</option>						
 						</C:forEach>
 						</select>
 					</td>
 					<td>입사일자 &nbsp</td>
 					<td>
-						<input type="text" name="employeeentEnteringDate" class="form-control">
+						<input type=date name="join_day" class="form-control" >
 					</td>
 					<td>퇴사일자 &nbsp</td>
 					<td>
-						<input type="text" name="employeeOutDate" class="form-control">
+						<input type="date" name="retire_day" class="form-control">
 					</td>
 					<td>직종분류 &nbsp</td>
 					<td>
-						<select name="Job" class="form-control">
+						<select name="job_type" class="form-control">
 						<option>(선택)</option>
-						<C:forEach var="map" items="${job}">
-							<option value="${map.get("SEQ")}">${map.get("JOB")}</option>						
+						<C:forEach var="map" items="${job_type}">
+							<option value="${map.get("JOB_TYPE")}">${map.get("JOB_TYPE")}</option>						
 						</C:forEach>
 						</select>
 					</td>
