@@ -86,4 +86,7 @@ public class EmployeeInfoService {
 		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
 		return transFormat.parse(convertDate);
 	}
+	public String getSabunSVC() {
+		return employeeInfo.getSabun();
+	}
 }

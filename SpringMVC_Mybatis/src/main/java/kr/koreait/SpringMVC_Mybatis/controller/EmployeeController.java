@@ -57,6 +57,8 @@ public class EmployeeController {
 		List<Map<String, Object>> mil_level_list = employeeInfoService.getMil_levelSVC();			// 계급
 		List<Map<String, Object>> kosa_reg_yn_list = employeeInfoService.getKosa_reg_ynSVC();			// KOSA등록
 		List<Map<String, Object>> kosa_class_code_list = employeeInfoService.getKosa_class_codeSVC();			// KOSA등급
+		String sabun_list = employeeInfoService.getSabunSVC();
+		model.addAttribute("sabun", sabun_list);
 		model.addAttribute("email", email_list);
 		model.addAttribute("job_type", job_type_list);
 		model.addAttribute("sex", sex_list);
@@ -77,6 +79,6 @@ public class EmployeeController {
 	public String setEmployeeRegistrationCtrl(EmployeeVO employeeVO) throws Exception{
 		logger.info("setEmployeeRegistrationCtrl");
 		employeeInfoService.setRegistrationSVC(employeeVO);
-		return "HumanResourceManagement/employeeRegistration";
+		return "redirect:registration";
 	}
 }

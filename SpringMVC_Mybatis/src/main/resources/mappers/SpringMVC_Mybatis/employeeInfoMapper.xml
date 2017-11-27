@@ -53,10 +53,10 @@
 	<select id="getKosa_class_code" resultType="hashmap">
 		select * from kosa_class_code
 	</select>
-	
-	
-	
-	
+
+	<select id="getSabun" resultType="String">
+		select NVL(MAX(sabun),0)+1 from insa
+	</select>
 	
 	<insert id="setRegistration" parameterType="kr.koreait.SpringMVC_Mybatis.vo.EmployeeVO">
 		insert into insa values (

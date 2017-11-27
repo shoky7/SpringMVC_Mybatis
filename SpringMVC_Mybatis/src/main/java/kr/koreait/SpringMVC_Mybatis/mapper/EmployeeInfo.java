@@ -20,4 +20,5 @@ public interface EmployeeInfo {
 	public List<Map<String, Object>> getMil_level();
 	public List<Map<String, Object>> getKosa_reg_yn();
 	public List<Map<String, Object>> getKosa_class_code();
+	public String getSabun();
 }
