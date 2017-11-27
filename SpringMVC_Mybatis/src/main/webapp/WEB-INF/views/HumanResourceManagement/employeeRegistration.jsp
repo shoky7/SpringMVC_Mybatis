@@ -53,6 +53,7 @@
 		function registration() {
 	        var mJuminNumber = $("#reg_no").val();
 	        mJuminNumber = mJuminNumber.replace("-","");
+	        
 			if($('#name').val().trim()==""){
 				alert('한글성명을 입력하세요.');
 				$('#name').focus();
@@ -83,10 +84,8 @@
 			else if(mJuminNumber.length == 0){
 				$("#formReg").submit();
 			}
-
-	        
 	        //주민번호가 1개라도 입력됬을시 주민번호 조회.
-	        if(0<mJuminNumber.length && mJuminNumber.length<13){
+	        else if(0<mJuminNumber.length && mJuminNumber.length<13){
 	            alert("주민등록번호 13자리를 입력해주세요.");
 	            $("#reg_no").focus();
 	        }else if(mJuminNumber.length == 13){
@@ -216,14 +215,10 @@
 					$("#id").val(textinput);
 				});
 				
-								
-	
-				
 			// 이미지 업로드
 				$('#imageUploadBtn').click(function(){
 					var form = $('<form></form>');
 					var formData = new FormData(form);
-					
 					formData.append('humanImageUpload', $('#humanImageUpload')[0].files[0]);
 					if($('#humanImageUpload').val()) {
 						$.ajax({

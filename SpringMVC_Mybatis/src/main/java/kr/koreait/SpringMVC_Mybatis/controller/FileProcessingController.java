@@ -16,13 +16,11 @@ import org.springframework.web.multipart.MultipartFile;
 import com.google.gson.Gson;
 
 import kr.koreait.SpringMVC_Mybatis.vo.FileUploadVO;
-
 @Controller
 @RequestMapping("/fileProcessing/")
 public class FileProcessingController {
 	private final static Logger logger = LoggerFactory.getLogger(FileProcessingController.class);
 	private static final String UPLOAD_DIRECTORY = "D://myGit/SpringMVC_Mybatis/src/main/webapp/resources/uploadFiles";
-	
 	@RequestMapping(value="upload",method=RequestMethod.POST ,name="uploadCtrl")
 	public @ResponseBody String uploadCtrl(FileUploadVO fileUploadVO)throws Exception{
 		logger.info("uploadCtrl");
@@ -34,7 +32,6 @@ public class FileProcessingController {
 		map.put("filePath", path);
 		return new Gson().toJson(map);
 	}
-	
 	private File multipartToFile(MultipartFile multipart) throws IllegalStateException, IOException{
 		File convFile = new File(UPLOAD_DIRECTORY, multipart.getOriginalFilename());
 	    multipart.transferTo(convFile);
