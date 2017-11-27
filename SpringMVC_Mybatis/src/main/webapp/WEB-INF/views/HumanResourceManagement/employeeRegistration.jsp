@@ -50,9 +50,9 @@
 			return n;
 		} 
 
-			
-
 		function registration() {
+	        var mJuminNumber = $("#reg_no").val();
+	        mJuminNumber = mJuminNumber.replace("-","");
 			if($('#name').val().trim()==""){
 				alert('한글성명을 입력하세요.');
 				$('#name').focus();
@@ -80,16 +80,41 @@
 			else if($('#pwd').val().trim()!=($('#pwd2').val().trim())){
 				alert('패스워드와 패스워드확인이 일치하지 않습니다.');
 			}
-			else{
+			else if(mJuminNumber.length == 0){
 				$("#formReg").submit();
 			}
+
+	        
+	        //주민번호가 1개라도 입력됬을시 주민번호 조회.
+	        if(0<mJuminNumber.length && mJuminNumber.length<13){
+	            alert("주민등록번호 13자리를 입력해주세요.");
+	            $("#reg_no").focus();
+	        }else if(mJuminNumber.length == 13){
+	        //올바른 주민등록번호가 입력되는지 검사
+		     	var total = 0;
+		        var cnt = 2;
+		        for (var i = 0; i < mJuminNumber.length - 1; i++) {
+		            if (cnt > 9) {
+		                cnt = 2;
+		            }
+		            total += parseInt(mJuminNumber.charAt(i)) * cnt;
+		            cnt++;
+		        }
+		        var check = (11 - (total % 11)) % 10;
+		        if(parseInt(check) != parseInt(mJuminNumber.charAt(12))){
+			            alert("잘못된 주민등록번호 입니다.");
+			            $("#reg_no").focus();
+			    }else{
+					$("#formReg").submit();
+				}
+			}
 		}
-		
 			$(document).ready(function() {
 				document.getElementById('join_day').valueAsDate = new Date();
 				document.getElementById('retire_day').valueAsDate = new Date();
 				document.getElementById('mil_startdate').valueAsDate = new Date();
 				document.getElementById('mil_enddate').valueAsDate = new Date();
+				
 				
 				
 				//hp 자동 하이픈
@@ -122,6 +147,37 @@
 					}
 				});	
 				
+				$("#phone").keyup(function() {
+					var textinput = $("#phone").val();
+					textinput = textinput.replace(/[^0-9]/g, '');
+					var tmp = ""
+					
+					if(textinput.length < 4){
+						$("#phone").val(textinput);
+					} else if (textinput.length < 7) {
+						tmp += textinput.substr(0, 3);
+						tmp += '-';
+						tmp += textinput.substr(3);
+						$("#phone").val(tmp);
+					} else if (11 > textinput.length) {
+						tmp += textinput.substr(0, 3);
+						tmp += '-';
+						tmp += textinput.substr(3, 3);
+						tmp += '-';
+						tmp += textinput.substr(6);
+						$("#phone").val(tmp);
+					}
+					else{
+						tmp += textinput.substr(0, 3);
+						tmp += '-';
+						tmp += textinput.substr(3, 4);
+						tmp += '-';
+						tmp += textinput.substr(7);
+						$("#phone").val(tmp);
+					}
+				});	
+		
+				
 				// 주민번호 자동 하이픈
 				$("#reg_no").keyup(function() {
 					var textinput = $("#reg_no").val();
@@ -137,18 +193,30 @@
 						$("#reg_no").val(tmp);
 					}
 				});
-				
-				// 영문입력 자동 하이픈
+
+				// 영문성명입력
 				$("#eng_name").keyup(function() {
 					var textinput = $("#eng_name").val();
-					textinput = textinput.replace(/[^a-z|A-Z]/g, '');
-					var tmp = ""
-					
-					if(textinput.length < 20){
-						$("#eng_name").val(textinput);
-					}
+					textinput = textinput.replace(/[^a-z|A-Z| ]/g, '');
+					$("#eng_name").val(textinput);
+				});
+
+				
+				//한글성명입력
+				
+				$("#name").keyup(function() {
+					var textinput = $("#name").val();
+					textinput = textinput.replace(/[^가-힣|ㄱ-ㅎ| ]/g, '');
+					$("#name").val(textinput);
 				});
 				
+				$("#id").keyup(function() {
+					var textinput = $("#id").val();
+					textinput = textinput.replace(/[^a-z|A-Z|0-9]/g, '');
+					$("#id").val(textinput);
+				});
+				
+								
 	
 				
 			// 이미지 업로드
@@ -263,9 +331,9 @@
 						<td><span>*</span>사번</td>
 							<td><input type="text" id="sabun" name="sabun" value="${sabun}" class="form-control" readonly="readonly"></td>
 						<td><span>*</span>한글성명</td>
-						<td><input type="text" id="name"name="name" class="form-control" maxlength="5"></td>
+						<td><input type="text" style="ime-mode:active;" id="name"name="name" class="form-control" maxlength="5"></td>
 						<td>영문성명</td>
-						<td><input type="text" name="eng_name" id="eng_name "class="form-control" maxlength="20"></td>
+						<td><input type="text" name="eng_name" id="eng_name" class="form-control" maxlength="20" style="ime-mode:inactive"></td>
 					</tr>
 					<tr>
 						<td><span>*</span>아이디</td>
