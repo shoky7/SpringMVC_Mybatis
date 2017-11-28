@@ -17,6 +17,9 @@
 		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 		<style>
 			span{ color:red; }
+			#pwdcheak{
+				color:red;
+			}
 			.humanImage{
 				border: solid 1px #ced4da;
 				width:327px;
@@ -26,7 +29,7 @@
 				width:326px;
 				height:339px;
 			}
-			#phone,#hp,#salary,#reg_no,#years,#sabun{
+			#phone,#hp,#salary,#reg_no,#years,#sabun,#cmp_reg_no{
 				text-align:right;
 			}
 		</style>
@@ -82,12 +85,12 @@
 				alert('패스워드와 패스워드확인이 일치하지 않습니다.');
 			}
 			else if(mJuminNumber.length == 0){
-				$("#formReg").submit();
+				$('#formReg').submit();
 			}
 	        //주민번호가 1개라도 입력됬을시 주민번호 조회.
-	        else if(0<mJuminNumber.length && mJuminNumber.length<13){
+	        else if(0 < mJuminNumber.length && mJuminNumber.length < 13){
 	            alert("주민등록번호 13자리를 입력해주세요.");
-	            $("#reg_no").focus();
+	            $('#reg_no').focus();
 	        }else if(mJuminNumber.length == 13){
 	        //올바른 주민등록번호가 입력되는지 검사
 		     	var total = 0;
@@ -102,9 +105,9 @@
 		        var check = (11 - (total % 11)) % 10;
 		        if(parseInt(check) != parseInt(mJuminNumber.charAt(12))){
 			            alert("잘못된 주민등록번호 입니다.");
-			            $("#reg_no").focus();
+			            $('#reg_no').focus();
 			    }else{
-					$("#formReg").submit();
+					$('#formReg').submit();
 				}
 			}
 		}
@@ -114,14 +117,48 @@
 				document.getElementById('mil_startdate').valueAsDate = new Date();
 				document.getElementById('mil_enddate').valueAsDate = new Date();
 				
+				//이메일 직접입력을 위해 selectBox change사용하기.
+				    $('#email_select').change( function(){
+    					if($('#email_select').val()=="직접입력"){
+    						$('#email2').val("");
+    						$('#email2').attr("readonly",false);
+    					}else{
+					    	$('#email2').val($('#email_select').val());
+    						$('#email2').attr("readonly",true);
+    					}
+				    });
 				
+				// 패스워드 체크
+				$('#pwd').keyup(function() {
+					if($('#pwd').val()=="" && $('#pwd2').val()==""){
+						$('#pwdcheak').text("패스워드를 입력해주세요");	
+						$('#pwdcheak').css('color','red');
+					}else if($('#pwd').val().trim()==$('#pwd2').val().trim()){
+						$('#pwdcheak').text("패스워드가 일치합니다.");	
+						$('#pwdcheak').css('color','blue');
+					}else{
+						$('#pwdcheak').text("패스워드가 일치하지 않습니다.");	
+						$('#pwdcheak').css('color','red');
+					}
+				});
+				$('#pwd2').keyup(function() {
+					if($('#pwd2').val()=="" && $('#pwd').val()==""){
+						$('#pwdcheak').text("패스워드를 입력해주세요");	
+						$('#pwdcheak').css('color','red');
+					}else if($('#pwd').val().trim()==$('#pwd2').val().trim()){
+						$('#pwdcheak').text("패스워드가 일치합니다.");
+						$('#pwdcheak').css('color','blue');
+					}else{
+						$('#pwdcheak').text("패스워드가 일치하지 않습니다.");	
+						$('#pwdcheak').css('color','red');
+					}
+				});
 				
 				//hp 자동 하이픈
 				$("#hp").keyup(function() {
 					var textinput = $("#hp").val();
 					textinput = textinput.replace(/[^0-9]/g, '');
 					var tmp = ""
-					
 					if(textinput.length < 4){
 						$("#hp").val(textinput);
 					} else if (textinput.length < 7) {
@@ -175,7 +212,25 @@
 						$("#phone").val(tmp);
 					}
 				});	
-		
+				
+				// 사업자번호 자동 하이픈(-) 넣기
+				$("#cmp_reg_no").keyup(function() {
+					var textinput = $("#cmp_reg_no").val();
+					textinput = textinput.replace(/[^0-9]/g, '');
+					var tmp = ""
+					
+					if(textinput.length < 4){
+						$("#cmp_reg_no").val(textinput);
+					}else{
+						tmp += textinput.substr(0, 3);
+						tmp += '-';
+						tmp += textinput.substr(3,2);
+						tmp += '-';
+						tmp += textinput.substr(5,5);
+						$("#cmp_reg_no").val(tmp);
+					}
+				});
+					
 				
 				// 주민번호 자동 하이픈
 				$("#reg_no").keyup(function() {
@@ -191,8 +246,36 @@
 						tmp += textinput.substr(6);
 						$("#reg_no").val(tmp);
 					}
+					// 주민번호 입력시 성별, 나이 값 구하기
+					var ssn = $('#reg_no').val().replace("-","");
+					if(ssn.length == 13 ){
+						var nByear, nTyear;
+						var today;
+						var nSex;
+						var nAge;
+						today = new Date();
+						nTyear = today.getFullYear();
+						if (parseInt(ssn.substr(6,1), 10) < 3){
+							nByear = 1900 + parseInt(ssn.substr(0,2), 10);
+						}else{
+							nByear = 2000 + parseInt(ssn.substr(0,2), 10);
+						}
+						nAge = nTyear - nByear+1;
+						nSex = parseInt(ssn.substr(6,1), 10);
+						if(nSex % 2 == 1){
+							nSex = "m";
+						}
+						else{
+							nSex ="w";
+						}
+						if(nSex=="m"){
+							$("#sex").val("1").prop("selected", true);
+						}else if(nSex=="w"){
+							$("#sex").val("2").prop("selected", true);
+						}
+						$("#years").val(nAge);
+					}
 				});
-
 				// 영문성명입력
 				$("#eng_name").keyup(function() {
 					var textinput = $("#eng_name").val();
@@ -214,13 +297,12 @@
 					textinput = textinput.replace(/[^a-z|A-Z|0-9]/g, '');
 					$("#id").val(textinput);
 				});
-				
-			// 이미지 업로드
-				$('#imageUploadBtn').click(function(){
+				function fileUpload(fileUpload,fileUpload_val) {
 					var form = $('<form></form>');
 					var formData = new FormData(form);
-					formData.append('humanImageUpload', $('#humanImageUpload')[0].files[0]);
-					if($('#humanImageUpload').val()) {
+					var imagePath;
+					formData.append('fileUpload', fileUpload[0].files[0]);
+					if(fileUpload_val) {
 						$.ajax({
 				            url: 			'/SpringMVC_Mybatis/fileProcessing/upload',
 				            type: 			'POST',
@@ -234,16 +316,40 @@
 				            success: function(result){
 				            	// JSON Text를 JSON Object로 변환
 				            	var resultObj = JSON.parse(result);
-				                var imagePath = '<C:out value="${myContext}"/>' + resultObj.filePath;
+				                imagePath = '<C:out value="${myContext}"/>' + resultObj.filePath;
 				                console.log(imagePath);
-				                $('#humanImage').attr('src', imagePath);
 				            }
 						});
 					} else {
 						alert('이미지 등록 해야함!');
-					}
-				});
-			});
+					}		
+				                return imagePath;
+				}
+				// 이미지 업로드
+				$('#imageUploadBtn').click(function(){
+					var imageUpload = $('#imageUpload');
+					var imageUpload_val = $('#imageUpload').val();
+					var imagePath;
+					imagePath = fileUpload(imageUpload,imageUpload_val);
+				   	$('#humanImage').attr('src', imagePath);
+				});	
+				// 이력서 업로드
+				$('#carrierUploadBtn').click(function(){
+					var carrierUpload = $('#carrierUpload');
+					var carrierUpload_val = $('#carrierUpload').val();
+					var imagePath;
+					fileUpload(carrierUpload,carrierUpload_val);
+				});	
+				// 사업자등록증 업로드
+				$('#cmp_reg_imageUploadBtn').click(function(){
+					var cmp_reg_imageUpload = $('#cmp_reg_imageUpload');
+					var cmp_reg_imageUpload_val = $('#cmp_reg_imageUpload').val();
+					var imagePath;
+					fileUpload(cmp_reg_imageUpload,cmp_reg_imageUpload_val);
+				});	
+			
+			
+			}); //ready
 			// 주소검색
 			function openDaumPostcode() {
 			    var width = 500; //팝업창이 실행될때 위치지정
@@ -319,7 +425,7 @@
 								<img id="humanImage" class="humanImageSize" src="<C:out value="${myContext}"/>/resources/image/human.png">
 							</div>
 							<div class="btn-group" style="width:327px">
-								<input type="file" name="humanImageUpload" id="humanImageUpload" class="form-control btn btn-info"/>
+								<input type="file" name="imageUpload" id="imageUpload" class="form-control btn btn-info"/>
 								<button type="button" id="imageUploadBtn" class="btn btn-primary"><i class="fa fa-camera" aria-hidden="true"></i> 등록</button>
 							</div>
 						</td>
@@ -334,14 +440,17 @@
 						<td><span>*</span>아이디</td>
 						<td><input type="text" id="id" name="id" class="form-control" maxlength="6"></td>
 						<td><span>*</span>패스워드</td>
-						<td><input type="password" id="pwd" name="pwd" class="form-control" maxlength="6"></td>
+						<td>
+							<input type="password" id="pwd" name="pwd" class="form-control" maxlength="6">
+							<div id="pwdcheak">패스워드를 입력해주세요.</div>
+						</td>
 						<td><span>*</span>패스워드확인</td>
 						<td><input type="password" id="pwd2" name="pwd2" class="form-control" maxlength="6"></td>
 					</tr>
 					<tr>
 						<td>전화번호</td>
 						<td><input type="text" id="phone" name="phone" class="form-control" maxlength="13"></td>
-						<td><span>*</span>핸드폰번호</td>
+						<td><span>*</span>핸드폰 번호</td>
 						<td>
 							<input type="text" name="hp" id="hp"class="form-control" maxlength="13">
 						</td>
@@ -354,10 +463,11 @@
 						<td><span>*</span>이메일</td>
 						<td>
 							<div class="input-group">
-								<input type="text" id="email" name="email" class="form-control" maxlength="10">
-								<select name="email" class="form-control">
+								<input type="text" id="email" name="email" class="form-control" maxlength="10">@
+								<input type="text" id="email2" name="email2" class="form-control" maxlength="10">
+								<select class="form-control" id="email_select">
 								<C:forEach var="map" items="${email}">
-									<option value="${map.get("EMAIL")}">${map.get("EMAIL")}</option>						
+									<option value="${map.get("NAME")}">${map.get("NAME")}</option>						
 								</C:forEach>
 								</select>
 							</div>
@@ -368,13 +478,13 @@
 								<select name="job_type" id="job_type" class="form-control">
 								<option value=" "></option>						
 								<C:forEach var="map" items="${job_type}">
-									<option value="${map.get("SEQ")}">${map.get("JOB_TYPE")}</option>						
+									<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
 								</C:forEach>
 								</select>
-								<select name="sex" class="form-control">
+								<select name="sex" id="sex" class="form-control">
 								<option value=" ">(성별)</option>	
 								<C:forEach var="map" items="${sex}" >
-									<option value="${map.get("SEQ")}">${map.get("SEX")}</option>						
+									<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
 								</C:forEach>
 								</select>
 							</div>
@@ -397,7 +507,7 @@
 							<select name="pos_gbn_code" class="form-control">
 							<option value=" "></option>
 							<C:forEach var="map" items="${pos_gbn_code}">
-								<option value="${map.get("SEQ")}">${map.get("POS_GBN_CODE")}</option>						
+								<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
 							</C:forEach>
 							</select>
 						</td>
@@ -406,7 +516,7 @@
 							<select name="dept_code" class="form-control">
 							<option value=" "></option>
 							<C:forEach var="map" items="${dept_code}">
-								<option value="${map.get("SEQ")}">${map.get("DEPT_CODE")}</option>						
+								<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
 							</C:forEach>
 							</select>
 						</td>
@@ -424,7 +534,7 @@
 							<select name="join_gbn_code" class="form-control">
 							<option value=" "></option>
 							<C:forEach var="map" items="${join_gbn_code}">
-								<option value="${map.get("SEQ")}">${map.get("JOIN_GBN_CODE")}</option>						
+								<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
 							</C:forEach>
 							</select>
 						</td>
@@ -433,17 +543,17 @@
 							<select name="gart_level" class="form-control">
 							<option value=" "></option>
 							<C:forEach var="map" items="${gart_level}">
-								<option value="${map.get("SEQ")}">${map.get("GART_LEVEL")}</option>						
+								<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
 							</C:forEach>
 							</select>
 						</td>
 						<td>투입여부</td>
 						<td>
-							<option value=" "></option>
 							<select name="put_yn" class="form-control">
-							<C:forEach var="map" items="${put_yn}">
-								<option value="${map.get("SEQ")}">${map.get("PUT_YN")}</option>						
-							</C:forEach>
+								<option value=" "></option>
+								<C:forEach var="map" items="${put_yn}">
+									<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
+								</C:forEach>
 							</select>
 						</td>
 						<td>군필여부</td>
@@ -451,7 +561,7 @@
 							<select  name="mil_yn" class="form-control">
 							<option value=" "></option>
 							<C:forEach var="map" items="${mil_yn}">
-								<option value="${map.get("SEQ")}">${map.get("MIL_YN")}</option>						
+								<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
 							</C:forEach>
 							</select>
 						</td>
@@ -463,7 +573,7 @@
 							<select name="mil_type" class="form-control">
 							<option value=" ">(선택)</option>
 							<C:forEach var="map" items="${mil_type}">
-								<option value="${map.get("SEQ")}">${map.get("MIL_TYPE")}</option>							
+								<option value="${map.get("CODE")}">${map.get("NAME")}</option>							
 							</C:forEach>
 							</select>
 						</td>
@@ -472,7 +582,7 @@
 							<select name="mil_level" class="form-control">
 							<option value=" ">(선택)</option>
 							<C:forEach var="map" items="${mil_level}">
-								<option value="${map.get("SEQ")}">${map.get("MIL_LEVEL")}</option>						
+								<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
 							</C:forEach>
 							</select>
 						</td>
@@ -487,7 +597,7 @@
 							<select name="kosa_reg_yn" class="form-control">
 							<option value=" "></option>
 							<C:forEach var="map" items="${kosa_reg_yn}">
-								<option value="${map.get("SEQ")}">${map.get("KOSA_REG_YN")}</option>						
+								<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
 							</C:forEach>
 							</select>
 						</td>
@@ -496,7 +606,7 @@
 							<select name="kosa_class_code" class="form-control">
 							<option value=" ">(선택)</option>
 							<C:forEach var="map" items="${kosa_class_code}">
-								<option value="${map.get("SEQ")}">${map.get("KOSA_CLASS_CODE")}</option>						
+								<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
 							</C:forEach>
 							</select>
 						</td>
@@ -507,16 +617,19 @@
 					</tr>
 					<tr>
 						<td>사업자번호</td>
-						<td><input type="text" name="cmp_reg_no" class="form-control" maxlength="12"></td>
+						<td><input type="text" name="cmp_reg_no" id="cmp_reg_no" class="form-control" maxlength="12"></td>
 						<td>업체명</td>
 						<td><input type="text" name="crm_name" class="form-control" maxlength="10"></td>
-						<td>사업자등록증</td>
+						<td>사업자<br/>등록증</td>
 						<td><input type="text" name="cmp_reg_image" class="form-control"></td>
 						<td>
 							<button  type="button" class="btn btn-secondary">미리보기</button>
 						</td>
 						<td>
-							<button  type="button" class="btn btn-info">등록</button>
+							<div class="btn-group" style="width:327px">
+								<input type="file" name="cmp_reg_imageUpload" id="cmp_reg_imageUpload" class="form-control btn btn-info"/>
+								<button type="button" id="cmp_reg_imageUploadBtn" class="btn btn-primary">등록</button>
+							</div>
 						</td>
 					</tr>
 					<tr>
@@ -530,7 +643,10 @@
 							<button  type="button" class="btn btn-secondary">미리보기</button>
 						</td>
 						<td>
-							<button  type="button" class="btn btn-info">파일 업로드</button>
+							<div class="btn-group" style="width:327px">
+								<input type="file" name="carrierUpload" id="carrierUpload" class="form-control btn btn-info"/>
+								<button type="button" id="carrierUploadBtn" class="btn btn-primary"><i class="fa fa-camera" aria-hidden="true"></i> 등록</button>
+							</div>
 						</td>
 					</tr>
 					<tr>

@@ -21,6 +21,7 @@ public class EmployeeVO {
 	private String sex;
 	private String years;
 	private String email;
+	private String email2;
 	private String zip;
 	private String addr1;
 	private String addr2;
@@ -147,6 +148,13 @@ public class EmployeeVO {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getEmail2() {
+		return email2;
+	}
+	public void setEmail2(String email2) {
+		this.email2 = email2;
 	}
 	public String getZip() {
 		return zip;

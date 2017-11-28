@@ -3,55 +3,55 @@
 <mapper namespace="kr.koreait.SpringMVC_Mybatis.mapper.EmployeeInfo">
 	
 	<select id="getEmail" resultType="hashmap">
-		select * from email
+		select gubun, code, name, note from insa_com where gubun = 'email'
 	</select>
 	
 	<select id="getJob_type" resultType="hashmap">
-		select * from job_type
+		select gubun, code, name, note from insa_com where gubun = 'job_type'
 	</select>
 	
 	<select id="getSex" resultType="hashmap">
-		select * from sex
+		select gubun, code, name, note from insa_com where gubun = 'sex'
 	</select>
 	
 	<select id="getPos_gbn_code" resultType="hashmap">
-		select * from pos_gbn_code
+		select gubun, code, name, note from insa_com where gubun = 'pos_gbn_code'
 	</select>
 	
 	<select id="getDept_code" resultType="hashmap">
-		select * from dept_code
+		select gubun, code, name, note from insa_com where gubun = 'dept_code'
 	</select>
 	
 	<select id="getJoin_gbn_code" resultType="hashmap">
-		select * from join_gbn_code
+		select gubun, code, name, note from insa_com where gubun = 'join_gbn_code'
 	</select>
 	
 	<select id="getGart_level" resultType="hashmap">
-		select * from gart_level
+		select gubun, code, name, note from insa_com where gubun = 'gart_level'
 	</select>
 	
 	<select id="getPut_yn" resultType="hashmap">
-		select * from put_yn
+		select gubun, code, name, note from insa_com where gubun = 'put_yn'
 	</select>
 	
 	<select id="getMil_yn" resultType="hashmap">
-		select * from mil_yn
+		select gubun, code, name, note from insa_com where gubun = 'mil_yn'
 	</select>
 	
 	<select id="getMil_type" resultType="hashmap">
-		select * from mil_type
+		select gubun, code, name, note from insa_com where gubun = 'mil_type'
 	</select>
 	
 	<select id="getMil_level" resultType="hashmap">
-		select * from mil_level
+		select gubun, code, name, note from insa_com where gubun = 'mil_level'
 	</select>
 	
 	<select id="getKosa_reg_yn" resultType="hashmap">
-		select * from kosa_reg_yn
+		select gubun, code, name, note from insa_com where gubun = 'kosa_reg_yn'
 	</select>
 	
 	<select id="getKosa_class_code" resultType="hashmap">
-		select * from kosa_class_code
+		select gubun, code, name, note from insa_com where gubun = 'kosa_class_code'
 	</select>
 
 	<select id="getSabun" resultType="String">

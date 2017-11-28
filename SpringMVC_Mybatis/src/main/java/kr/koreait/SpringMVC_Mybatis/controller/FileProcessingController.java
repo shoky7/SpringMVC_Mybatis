@@ -24,7 +24,7 @@ public class FileProcessingController {
 	@RequestMapping(value="upload",method=RequestMethod.POST ,name="uploadCtrl")
 	public @ResponseBody String uploadCtrl(FileUploadVO fileUploadVO)throws Exception{
 		logger.info("uploadCtrl");
-		File updFile = multipartToFile(fileUploadVO.getHumanImageUpload());
+		File updFile = multipartToFile(fileUploadVO.getFileUpload());
 		String path = updFile.getPath();
 		path = path.replace("D:\\myGit\\SpringMVC_Mybatis\\src\\main\\webapp", "").replace("\\", "/");
 		Map<String, String> map = new HashMap<>();
@@ -32,6 +32,7 @@ public class FileProcessingController {
 		map.put("filePath", path);
 		return new Gson().toJson(map);
 	}
+
 	private File multipartToFile(MultipartFile multipart) throws IllegalStateException, IOException{
 		File convFile = new File(UPLOAD_DIRECTORY, multipart.getOriginalFilename());
 	    multipart.transferTo(convFile);
