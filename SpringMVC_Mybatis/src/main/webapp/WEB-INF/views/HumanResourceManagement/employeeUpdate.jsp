@@ -36,6 +36,8 @@
 			}
 		</style>
 		<script>
+
+		
 		 	//연봉 콤마 나타내는 함수
 			function number_chk(obj){
 				var val = obj.value.replace(/,/g, "");
@@ -55,7 +57,7 @@
 				return n;
 			} 
 	
-			function registration() {
+			function employeeUpdate() {
 		        var mJuminNumber = $("#reg_no").val();
 		        mJuminNumber = mJuminNumber.replace("-","");
 		        
@@ -398,8 +400,10 @@
 					textinput = textinput.replace(/[^a-z|A-Z| ]/g, '');
 					$("#eng_name").val(textinput);
 				});
+
 				
 				//한글성명입력
+				
 				$("#name").keyup(function() {
 					var textinput = $("#name").val();
 					textinput = textinput.replace(/[^가-힣|ㄱ-ㅎ| ]/g, '');
@@ -426,6 +430,7 @@
 			            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
 			            var fullRoadAddr = data.roadAddress; // 도로명 주소 변수
 			            var extraRoadAddr = ''; // 도로명 조합형 주소 변수
+			 
 			            // 법정동명이 있을 경우 추가한다.
 			            if(data.bname !== ''){
 			                extraRoadAddr += data.bname;
@@ -442,7 +447,9 @@
 			            if(fullRoadAddr !== ''){
 			                fullRoadAddr += extraRoadAddr;
 			            }
+			             
 			            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+			            
 			            $('#zip').val(data.postcode1 + data.postcode2);
 			            $('#addr1').val(fullRoadAddr + data.jibunAddress);
 			            $('#addr2').focus();
@@ -468,14 +475,15 @@
 	    </ul>
 	      </div>
 	    </nav>
-
+    
 		<h3>&nbsp &nbsp직원상세정보</h3>
 	
 		<div align="right">
-			<button type="button" class="btn btn-primary" onclick = "registration()">등록</button>
+			<button type="button" class="btn btn-primary" onclick = "employeeUpdate()">수정</button>
+			<button type="button" class="btn btn-primary" onclick = "location.href ='/SpringMVC_Mybatis/employee/registration'">초기화</button>
 			<button type="button" class="btn btn-primary" onclick = "location.href ='/SpringMVC_Mybatis/index'">메인화면</button>
 		</div>
-		<form id ="formReg" action= "/SpringMVC_Mybatis/employee/registration"  method="post">
+		<form id ="formReg" action= "/SpringMVC_Mybatis/employee/employeeUpdate"  method="post">
 			<table class="table">
 				<tbody>
 					<tr>
@@ -489,40 +497,40 @@
 							</div>
 						</td>
 						<td><span>*</span>사번</td>
-							<td><input type="text" id="sabun" name="sabun" value="${sabun}" class="form-control" readonly="readonly"></td>
+							<td><input type="text" id="sabun" name="sabun" value="${employeeVO.sabun}" class="form-control" readonly="readonly"></td>
 						<td><span>*</span>한글성명</td>
-						<td><input type="text" style="ime-mode:active;" id="name"name="name" class="form-control" maxlength="5"></td>
+						<td><input type="text" style="ime-mode:active;" id="name"name="name" value="${employeeVO.name}" class="form-control" maxlength="5"></td>
 						<td>영문성명</td>
-						<td><input type="text" name="eng_name" id="eng_name" class="form-control" maxlength="20" style="ime-mode:inactive"></td>
+						<td><input type="text" name="eng_name" id="eng_name" value="${employeeVO.eng_name}"  class="form-control" maxlength="20" style="ime-mode:inactive"></td>
 					</tr>
 					<tr>
 						<td><span>*</span>아이디</td>
-						<td><input type="text" id="id" name="id" class="form-control" maxlength="6"></td>
+						<td><input type="text" id="id" name="id" value="${employeeVO.id}" class="form-control" maxlength="6"></td>
 						<td><span>*</span>패스워드</td>
 						<td>
-							<input type="password" id="pwd" name="pwd" class="form-control" maxlength="6">
+							<input type="password" id="pwd" name="pwd" value="${employeeVO.pwd}" class="form-control" maxlength="6">
 							<div id="pwdcheak">패스워드를 입력해주세요.</div>
 						</td>
 						<td><span>*</span>패스워드확인</td>
-						<td><input type="password" id="pwd2" name="pwd2" class="form-control" maxlength="6"></td>
+						<td><input type="password" id="pwd2" name="pwd2" value="${employeeVO.pwd}" class="form-control" maxlength="6"></td>
 					</tr>
 					<tr>
 						<td>전화번호</td>
-						<td><input type="text" id="phone" name="phone" class="form-control" maxlength="13"></td>
+						<td><input type="text" id="phone" name="phone" value="${employeeVO.phone}" class="form-control" maxlength="13"></td>
 						<td><span>*</span>핸드폰 번호</td>
 						<td>
-							<input type="text" name="hp" id="hp"class="form-control" maxlength="13">
+							<input type="text" name="hp" id="hp"class="form-control" value="${employeeVO.hp}" maxlength="13">
 						</td>
 						<td>주민번호</td>
-						<td><input type="text" name="reg_no" id="reg_no" class="form-control" maxlength="14"></td>
+						<td><input type="text" name="reg_no" id="reg_no" value="${employeeVO.reg_no}" class="form-control" maxlength="14"></td>
 					</tr>
 					<tr>
 						<td>연령</td>
-						<td><input type="text" name="years" id="years" class="form-control" maxlength="2"></td>
+						<td><input type="text" name="years" id="years" value="${employeeVO.years}" class="form-control" maxlength="2"></td>
 						<td><span>*</span>이메일</td>
 						<td>
 							<div class="input-group">
-								<input type="text" id="email" name="email" class="form-control" maxlength="10">@
+								<input type="text" id="email" name="email" value="${employeeVO.email}" class="form-control" maxlength="10">@
 								<input type="text" id="email2" name="email2" class="form-control" maxlength="10">
 								<select class="form-control" id="email_select">
 								<c:forEach var="map" items="${email}">
@@ -553,12 +561,12 @@
 						<td>주소</td>
 						<td>
 							<div class="input-group">
-								<input type="text" name="zip" id="zip" class="form-control" maxlength="20">
+								<input type="text" name="zip" id="zip" value="${employeeVO.zip}" class="form-control" maxlength="20">
 								<button  type="button" onclick="openDaumPostcode()" class="btn btn-secondary">주소검색</button>
 							</div>
 						</td>
-						<td colspan="2"><input type="text" name="addr1" id="addr1" class="form-control" maxlength="15"></td>
-						<td colspan="2"><input type="text" name="addr2" id="addr2" class="form-control" maxlength="25"></td>
+						<td colspan="2"><input type="text" name="addr1" id="addr1" value="${employeeVO.addr1}" class="form-control" maxlength="15"></td>
+						<td colspan="2"><input type="text" name="addr2" id="addr2" value="${employeeVO.addr2}"class="form-control" maxlength="25"></td>
 					</tr>
 					<tr>
 						<td>직위</td>
@@ -583,7 +591,7 @@
 						<td>
 							<div class="input-group"><input type="text" id="salary" name="salary" 
 							onkeyup="number_chk(this);" onkeypress="javascript:if((event.keyCode<48)||(event.keyCode>57))event.returnValue=false;"
-							class="form-control"  maxlength="12" placeholder="(만원)">
+							class="form-control" value="${employeeVO.salary}"  maxlength="12" placeholder="(만원)">
 							</div>
 						</td>
 					</tr>
@@ -628,7 +636,6 @@
 					<tr>
 						<td>군별</td>
 						<td>
-						
 							<select name="mil_type" class="form-control">
 							<option value=" ">(선택)</option>
 							<c:forEach var="map" items="${mil_type}">
@@ -646,7 +653,7 @@
 							</select>
 						</td>
 						<td>입영일자</td>
-						<td><input type="date" id="mil_startdate" name="mil_startdate" class="form-control"></td>
+						<td><input type="date" id="mil_startdate" name="mil_startdate" value="${employeeVO.mil_startdate}" class="form-control"></td>
 						<td>전역일자</td>
 						<td><input type="date" id="mil_enddate" name="mil_enddate" class="form-control"></td>
 					</tr>
@@ -676,11 +683,11 @@
 					</tr>
 					<tr>
 						<td>사업자번호</td>
-						<td><input type="text" name="cmp_reg_no" id="cmp_reg_no" class="form-control" maxlength="12"></td>
+						<td><input type="text" name="cmp_reg_no" id="cmp_reg_no" class="form-control" value="${employeeVO.cmp_reg_no}" maxlength="12"></td>
 						<td>업체명</td>
-						<td><input type="text" name="crm_name" class="form-control" maxlength="10"></td>
+						<td><input type="text" name="crm_name" class="form-control" value="${employeeVO.crm_name}" maxlength="10"></td>
 						<td>사업자<br/>등록증</td>
-						<td><input type="text" name="cmp_reg_image" id="cmp_reg_image" class="form-control" readonly="readonly"></td>
+						<td><input type="text" name="cmp_reg_image" id="cmp_reg_image" value="${employeeVO.cmp_reg_image}" class="form-control" readonly="readonly"></td>
 						<td>
 							<button  type="button" id="cmp_reg_imageUploadView" class="btn btn-secondary">미리보기</button>
 						</td>
@@ -694,12 +701,12 @@
 					<tr>
 						<td rowspan="2">자기소개</td>
 						<td colspan="3">
-							<textarea name="self_intro" class="form-control" maxlength="30"></textarea>
+							<textarea name="self_intro" class="form-control" maxlength="30">${employeeVO.self_intro}</textarea>
 						</td>
 						<td>이력서</td>
-						<td><input type="text" name="carrier" id="carrier" class="form-control" readonly="readonly"></td>
+						<td><input type="text" name="carrier" id="carrier" class="form-control" value="${employeeVO.carrier}" readonly="readonly"></td>
 						<td>
-							<button  type="button" id="carrierUploadView" class="btn btn-secondary" >미리보기</button>
+							<button  type="button" id="carrierUploadView" class="btn btn-secondary">미리보기</button>
 
 						</td>
 						<td>

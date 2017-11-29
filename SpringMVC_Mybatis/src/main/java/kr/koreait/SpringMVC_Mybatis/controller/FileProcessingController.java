@@ -21,10 +21,32 @@ import kr.koreait.SpringMVC_Mybatis.vo.FileUploadVO;
 public class FileProcessingController {
 	private final static Logger logger = LoggerFactory.getLogger(FileProcessingController.class);
 	private static final String UPLOAD_DIRECTORY = "D://myGit/SpringMVC_Mybatis/src/main/webapp/resources/uploadFiles";
-	@RequestMapping(value="upload",method=RequestMethod.POST ,name="uploadCtrl")
-	public @ResponseBody String uploadCtrl(FileUploadVO fileUploadVO)throws Exception{
+	@RequestMapping(value="imageUpload",method=RequestMethod.POST ,name="iamgeUploadCtrl")
+	public @ResponseBody String iamgeUploadCtrl(FileUploadVO fileUploadVO)throws Exception{
 		logger.info("uploadCtrl");
-		File updFile = multipartToFile(fileUploadVO.getFileUpload());
+		File updFile = multipartToFile(fileUploadVO.getImageUpload());
+		String path = updFile.getPath();
+		path = path.replace("D:\\myGit\\SpringMVC_Mybatis\\src\\main\\webapp", "").replace("\\", "/");
+		Map<String, String> map = new HashMap<>();
+		map.put("message","success");
+		map.put("filePath", path);
+		return new Gson().toJson(map);
+	}
+	@RequestMapping(value="carrierUpload",method=RequestMethod.POST ,name="carrierUploadCtrl")
+	public @ResponseBody String carrierUploadCtrl(FileUploadVO fileUploadVO)throws Exception{
+		logger.info("carrierUploadCtrl");
+		File updFile = multipartToFile(fileUploadVO.getCarrierUpload());
+		String path = updFile.getPath();
+		path = path.replace("D:\\myGit\\SpringMVC_Mybatis\\src\\main\\webapp", "").replace("\\", "/");
+		Map<String, String> map = new HashMap<>();
+		map.put("message","success");
+		map.put("filePath", path);
+		return new Gson().toJson(map);
+	}
+	@RequestMapping(value="cmp_reg_imageUpload",method=RequestMethod.POST ,name="cmp_reg_imageUploadCtrl")
+	public @ResponseBody String cmp_reg_imageUploadCtrl(FileUploadVO fileUploadVO)throws Exception{
+		logger.info("cmp_reg_imageUploadCtrl");
+		File updFile = multipartToFile(fileUploadVO.getCmp_reg_imageUpload());
 		String path = updFile.getPath();
 		path = path.replace("D:\\myGit\\SpringMVC_Mybatis\\src\\main\\webapp", "").replace("\\", "/");
 		Map<String, String> map = new HashMap<>();

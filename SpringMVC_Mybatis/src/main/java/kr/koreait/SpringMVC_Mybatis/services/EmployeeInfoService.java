@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.support.ServletContextLiveBeansView;
 
 import kr.koreait.SpringMVC_Mybatis.mapper.EmployeeInfo;
 import kr.koreait.SpringMVC_Mybatis.vo.EmployeeVO;
@@ -18,7 +17,6 @@ import kr.koreait.SpringMVC_Mybatis.vo.EmployeeVO;
 @Service
 public class EmployeeInfoService {
 	private final static Logger logger = LoggerFactory.getLogger(EmployeeInfoService.class);
-	
 	@Autowired
 	private EmployeeInfo employeeInfo;
 
@@ -79,7 +77,6 @@ public class EmployeeInfoService {
 		employeeVO.setConvertJoin_day(getConvertDate(employeeVO.getJoin_day()));
 		employeeVO.setConvertRetire_day(getConvertDate(employeeVO.getRetire_day()));
 		employeeInfo.setRegistration(employeeVO);
-		
 	}
 	
 	private Date getConvertDate(String convertDate) throws ParseException{
