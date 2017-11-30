@@ -86,8 +86,6 @@ public class EmployeeController {
 	@RequestMapping(value="registration", method = RequestMethod.POST, name="registration page")
 	public String setEmployeeRegistrationCtrl(EmployeeVO employeeVO,Model model) throws Exception{
 		logger.info("setEmployeeRegistrationCtrl");
-		employeeVO.setSalary(employeeVO.getSalary().replace(",", ""));
-		employeeVO.setEmail(employeeVO.getEmail()+ "@" +employeeVO.getEmail2());
 		employeeInfoService.setRegistrationSVC(employeeVO);
 		model.addAttribute("sabun",employeeVO.getSabun());
 		return "HumanResourceManagement/RegistrationComplete";
