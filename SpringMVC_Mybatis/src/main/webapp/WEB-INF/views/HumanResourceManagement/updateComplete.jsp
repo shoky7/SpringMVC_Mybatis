@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<meta charset="UTF-8">
-		<title>인사 등록 완료</title>
+		<title>인사 수정 완료</title>
 	<script src="<c:out value="${myContext}"/>/resources/assets/jquery/jquery-3.2.1.min.js"></script>
 	<script>
 		function complete() {
@@ -15,9 +15,11 @@
 	</head>
 	<body>
 		<form id="copleteForm" action="/SpringMVC_Mybatis/employee/employeeUpdateForm" method="post">
-			등록이 완료 되었습니다.
+			업데이트가 완료 되었습니다.
 			<button type="button" onclick="complete()">확인</button>
-			<input type="hidden" name="sabun" value="${sabun}">
+			<input type="hidden" name="sabun" value="${employeeVO.sabun}">
+			<input type="hidden" name="join_day" value="${employeeVO.join_day}">
+			<input type="hidden" name="retire_day" value="${employeeVO.retire_day}">
 		</form>
 	</body>
 </html>

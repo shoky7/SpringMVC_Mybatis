@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.koreait.SpringMVC_Mybatis.mapper.EmployeeUpdate">
+	<update id="employeeUpdateByVO" parameterType="kr.koreait.SpringMVC_Mybatis.vo.EmployeeVO">
+		UPDATE insa set 
+		join_day = #{convertJoin_day},
+		retire_day = #{convertRetire_day},
+		put_yn = #{put_yn},
+		name = #{name},
+		reg_no = #{reg_no},
+		eng_name = #{eng_name},
+		phone = #{phone},
+		hp = #{hp},
+		carrier = #{carrier},
+		pos_gbn_code = #{pos_gbn_code},
+		cmp_reg_no = #{cmp_reg_no},
+		cmp_reg_image = #{cmp_reg_image},
+		sex = #{sex},
+		years = #{years},
+		email = #{email},
+		zip = #{zip},
+		addr1 = #{addr1},
+		addr2 = #{addr2},
+		dept_code = #{dept_code},
+		join_gbn_code = #{join_gbn_code},
+		id = #{id},
+		pwd = #{pwd},
+		salary = #{salary},
+		kosa_reg_yn = #{kosa_reg_yn},
+		kosa_class_code = #{kosa_class_code},
+		mil_yn = #{mil_yn},
+		mil_type = #{mil_type},
+		mil_level = #{mil_level},
+		mil_startdate = #{mil_startdate},
+		mil_enddate = #{mil_enddate},
+		job_type = #{job_type},
+		gart_level = #{gart_level},
+		self_intro = #{self_intro},
+		crm_name = #{crm_name}
+		WHERE sabun = #{sabun}
+	</update>
+</mapper>

@@ -20,7 +20,7 @@
 		#cmp_reg_image_modal,#carrier_modal{display:none;background-color:#FFFFFF;position:absolute;top:10px;left:200px;padding:10px;border:2px solid #E2E2E2;z-Index:9999}
 			span{ color:red; }
 			#pwdcheak{
-				color:red;
+				color:blue;
 			}
 			.humanImage{
 				border: solid 1px #ced4da;
@@ -85,6 +85,10 @@
 					alert('이메일을 입력하세요.');
 					$('#email').focus();
 				}
+				else if($('#email2').val().trim()==""){
+					alert('이메일을 입력하세요.');
+					$('#email').focus();
+				}
 				else if($('#pwd').val().trim()!=($('#pwd2').val().trim())){
 					alert('패스워드와 패스워드확인이 일치하지 않습니다.');
 				}
@@ -116,10 +120,48 @@
 				}
 			}
 			$(document).ready(function() {
-				document.getElementById('join_day').valueAsDate = new Date();
-				document.getElementById('retire_day').valueAsDate = new Date();
-				document.getElementById('mil_startdate').valueAsDate = new Date();
-				document.getElementById('mil_enddate').valueAsDate = new Date();
+				// 등록했던 정보 selectbox 불러오기. 
+				$("#job_type").val('${employeeVO.job_type}').prop("selected", true);
+				$("#sex").val('${employeeVO.sex}').prop("selected", true);
+				$("#pos_gbn_code").val('${employeeVO.sex}').prop("selected", true);
+				$("#dept_code").val('${employeeVO.dept_code}').prop("selected", true);
+				$("#gart_level").val('${employeeVO.gart_level}').prop("selected", true);
+				$("#put_yn").val('${employeeVO.put_yn}').prop("selected", true);
+				$("#mil_yn").val('${employeeVO.mil_yn}').prop("selected", true);
+				$("#mil_type").val('${employeeVO.mil_type}').prop("selected", true);
+				$("#mil_level").val('${employeeVO.mil_level}').prop("selected", true);
+				$("#kosa_reg_yn").val('${employeeVO.kosa_reg_yn}').prop("selected", true);
+				$("#kosa_class_code").val('${employeeVO.kosa_class_code}').prop("selected", true);
+				$("#join_gbn_code").val('${employeeVO.join_gbn_code}').prop("selected", true);
+				
+				// 등록된 이메일 불러오기.
+				var emailArray = '${employeeVO.email}'.split('@');
+				$('#email').val(emailArray[0]);
+				$('#email2').val(emailArray[1]);
+				$("#email_select").val(emailArray[1]).prop("selected", true);
+				
+				//등록된 연봉 불러올때 , 넣기.
+					var textinput = $("#salary").val();
+					var tmp = ""
+					if (textinput.length > 3) {
+						tmp += textinput.substr(0, 1);
+						tmp += ',';
+						tmp += textinput.substr(1);
+						$("#salary").val(tmp);
+					} 
+				
+				// 미필시 테이블 없애기
+				if($('#mil_yn').val()==2){
+					$('#mil').hide();
+				}
+			    $('#mil_yn').change(function(){
+					if($('#mil_yn').val()=='1'){
+						$('#mil').show();
+					}else if($('#mil_yn').val()=="2"){
+						$('#mil').hide();
+					}
+			    });		
+					
 				// 모달창 인스턴트 생성
 				var mycmp_reg_image_modal = new Example.Modal({
 				    id: "cmp_reg_image_modal" // 모달창 아이디 지정
@@ -483,7 +525,7 @@
 			<button type="button" class="btn btn-primary" onclick = "location.href ='/SpringMVC_Mybatis/employee/registration'">초기화</button>
 			<button type="button" class="btn btn-primary" onclick = "location.href ='/SpringMVC_Mybatis/index'">메인화면</button>
 		</div>
-		<form id ="formReg" action= "/SpringMVC_Mybatis/employee/employeeUpdate"  method="post">
+		<form id ="formReg" action= "/SpringMVC_Mybatis/employee/employeeUpdate" method="post">
 			<table class="table">
 				<tbody>
 					<tr>
@@ -509,7 +551,7 @@
 						<td><span>*</span>패스워드</td>
 						<td>
 							<input type="password" id="pwd" name="pwd" value="${employeeVO.pwd}" class="form-control" maxlength="6">
-							<div id="pwdcheak">패스워드를 입력해주세요.</div>
+							<div id="pwdcheak">패스워드가 일치합니다.</div>
 						</td>
 						<td><span>*</span>패스워드확인</td>
 						<td><input type="password" id="pwd2" name="pwd2" value="${employeeVO.pwd}" class="form-control" maxlength="6"></td>
@@ -531,7 +573,7 @@
 						<td>
 							<div class="input-group">
 								<input type="text" id="email" name="email" value="${employeeVO.email}" class="form-control" maxlength="10">@
-								<input type="text" id="email2" name="email2" class="form-control" maxlength="10">
+								<input type="text" id="email2" name="email2" readonly="readonly" class="form-control" maxlength="10">
 								<select class="form-control" id="email_select">
 								<c:forEach var="map" items="${email}">
 									<option value="${map.get("NAME")}">${map.get("NAME")}</option>						
@@ -571,7 +613,7 @@
 					<tr>
 						<td>직위</td>
 						<td>
-							<select name="pos_gbn_code" class="form-control">
+							<select name="pos_gbn_code" id="pos_gbn_code" class="form-control">
 							<option value=" "></option>
 							<c:forEach var="map" items="${pos_gbn_code}">
 								<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
@@ -580,7 +622,7 @@
 						</td>
 						<td>부서</td>
 						<td>
-							<select name="dept_code" class="form-control">
+							<select name="dept_code" id="dept_code" class="form-control">
 							<option value=" "></option>
 							<c:forEach var="map" items="${dept_code}">
 								<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
@@ -591,14 +633,14 @@
 						<td>
 							<div class="input-group"><input type="text" id="salary" name="salary" 
 							onkeyup="number_chk(this);" onkeypress="javascript:if((event.keyCode<48)||(event.keyCode>57))event.returnValue=false;"
-							class="form-control" value="${employeeVO.salary}"  maxlength="12" placeholder="(만원)">
+							class="form-control" value="${employeeVO.salary}"  maxlength="6" placeholder="(만원)">
 							</div>
 						</td>
 					</tr>
 					<tr>
 						<td>입사구분</td>
 						<td>
-							<select name="join_gbn_code" class="form-control">
+							<select name="join_gbn_code" id="join_gbn_code" class="form-control">
 							<option value=" "></option>
 							<c:forEach var="map" items="${join_gbn_code}">
 								<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
@@ -607,7 +649,7 @@
 						</td>
 						<td>등급</td>
 						<td>
-							<select name="gart_level" class="form-control">
+							<select name="gart_level" id="gart_level" class="form-control">
 							<option value=" "></option>
 							<c:forEach var="map" items="${gart_level}">
 								<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
@@ -616,7 +658,7 @@
 						</td>
 						<td>투입여부</td>
 						<td>
-							<select name="put_yn" class="form-control">
+							<select name="put_yn" id="put_yn" class="form-control">
 								<option value=" "></option>
 								<c:forEach var="map" items="${put_yn}">
 									<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
@@ -625,7 +667,7 @@
 						</td>
 						<td>군필여부</td>
 						<td>
-							<select  name="mil_yn" class="form-control">
+							<select  name="mil_yn" id="mil_yn" class="form-control">
 							<option value=" "></option>
 							<c:forEach var="map" items="${mil_yn}">
 								<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
@@ -633,10 +675,10 @@
 							</select>
 						</td>
 					</tr>
-					<tr>
+					<tr id="mil">
 						<td>군별</td>
 						<td>
-							<select name="mil_type" class="form-control">
+							<select name="mil_type" id="mil_type" class="form-control">
 							<option value=" ">(선택)</option>
 							<c:forEach var="map" items="${mil_type}">
 								<option value="${map.get("CODE")}">${map.get("NAME")}</option>							
@@ -645,7 +687,7 @@
 						</td>
 						<td>계급</td>
 						<td>
-							<select name="mil_level" class="form-control">
+							<select name="mil_level" id="mil_level" class="form-control">
 							<option value=" ">(선택)</option>
 							<c:forEach var="map" items="${mil_level}">
 								<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
@@ -655,12 +697,12 @@
 						<td>입영일자</td>
 						<td><input type="date" id="mil_startdate" name="mil_startdate" value="${employeeVO.mil_startdate}" class="form-control"></td>
 						<td>전역일자</td>
-						<td><input type="date" id="mil_enddate" name="mil_enddate" class="form-control"></td>
+						<td><input type="date" id="mil_enddate" name="mil_enddate" value="${employeeVO.mil_enddate}" class="form-control"></td>
 					</tr>
 					<tr>
 						<td>KOSA등록</td>
 						<td>
-							<select name="kosa_reg_yn" class="form-control">
+							<select name="kosa_reg_yn" id="kosa_reg_yn" class="form-control">
 							<option value=" "></option>
 							<c:forEach var="map" items="${kosa_reg_yn}">
 								<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
@@ -669,7 +711,7 @@
 						</td>
 						<td>KOSA등급</td>
 						<td>
-							<select name="kosa_class_code" class="form-control">
+							<select name="kosa_class_code" id="kosa_class_code" class="form-control">
 							<option value=" ">(선택)</option>
 							<c:forEach var="map" items="${kosa_class_code}">
 								<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
@@ -677,9 +719,9 @@
 							</select>
 						</td>
 						<td>입사일자</td>
-						<td><input type="date" id="join_day" name="join_day" class="form-control"></td>
+						<td><input type="date" id="join_day" name="join_day" value="${employeeVO.join_day}" class="form-control"></td>
 						<td>퇴사일자</td>
-						<td><input type="date" id="retire_day" name="retire_day" class="form-control"></td>
+						<td><input type="date" id="retire_day" name="retire_day" value="${employeeVO.retire_day}" class="form-control"></td>
 					</tr>
 					<tr>
 						<td>사업자번호</td>

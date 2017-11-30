@@ -22,7 +22,7 @@
 		addr1,
 		addr2,
 		dept_code,
-		wokringstatus,
+		join_gbn_code,
 		id,
 		pwd,
 		salary,

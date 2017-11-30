@@ -125,6 +125,17 @@
 				var mycarrier_modal = new Example.Modal({
 				    id: "carrier_modal" // 모달창 아이디 지정
 				});
+				
+				
+				// 미필시 테이블 없애기
+			    $('#mil_yn').change(function(){
+					if($('#mil_yn').val()=="1"){
+						$('#mil').show();
+					}else if($('#mil_yn').val()=="2"){
+						$('#mil').hide();
+					}
+			    });
+				
 				// 이미지 업로드
 					$('#imageUploadBtn').click(function(){
 							var form = $('<form></form>');
@@ -583,7 +594,7 @@
 						<td>
 							<div class="input-group"><input type="text" id="salary" name="salary" 
 							onkeyup="number_chk(this);" onkeypress="javascript:if((event.keyCode<48)||(event.keyCode>57))event.returnValue=false;"
-							class="form-control"  maxlength="12" placeholder="(만원)">
+							class="form-control"  maxlength="6" placeholder="(만원)">
 							</div>
 						</td>
 					</tr>
@@ -617,7 +628,7 @@
 						</td>
 						<td>군필여부</td>
 						<td>
-							<select  name="mil_yn" class="form-control">
+							<select  name="mil_yn" id="mil_yn" class="form-control">
 							<option value=" "></option>
 							<c:forEach var="map" items="${mil_yn}">
 								<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
@@ -625,7 +636,7 @@
 							</select>
 						</td>
 					</tr>
-					<tr>
+					<tr id="mil">
 						<td>군별</td>
 						<td>
 						

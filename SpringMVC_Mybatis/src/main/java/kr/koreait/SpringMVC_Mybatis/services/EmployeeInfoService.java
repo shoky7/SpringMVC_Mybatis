@@ -74,6 +74,8 @@ public class EmployeeInfoService {
 	}
 	public void setRegistrationSVC(EmployeeVO employeeVO) throws Exception{
 		logger.info("setRegistrationSVC");
+		employeeVO.setSalary(employeeVO.getSalary().replace(",", ""));
+		employeeVO.setEmail(employeeVO.getEmail()+ "@" +employeeVO.getEmail2());
 		employeeVO.setConvertJoin_day(getConvertDate(employeeVO.getJoin_day()));
 		employeeVO.setConvertRetire_day(getConvertDate(employeeVO.getRetire_day()));
 		employeeInfo.setRegistration(employeeVO);
