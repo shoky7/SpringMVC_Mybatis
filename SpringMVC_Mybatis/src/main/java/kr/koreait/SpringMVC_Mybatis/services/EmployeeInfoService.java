@@ -1,6 +1,5 @@
 package kr.koreait.SpringMVC_Mybatis.services;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -25,7 +24,6 @@ public class EmployeeInfoService {
 	}
 
 	public List<Map<String, Object>> getJob_typeSVC() {
-		logger.info("getJob_typeSVC");
 		return employeeInfo.getJob_type();
 	}
 
@@ -78,10 +76,17 @@ public class EmployeeInfoService {
 		employeeVO.setEmail(employeeVO.getEmail()+ "@" +employeeVO.getEmail2());
 		employeeVO.setConvertJoin_day(getConvertDate(employeeVO.getJoin_day()));
 		employeeVO.setConvertRetire_day(getConvertDate(employeeVO.getRetire_day()));
+		
+		if(employeeVO.getMil_yn().equals("2") || employeeVO.getMil_yn().equals(" ")){
+			employeeVO.setMil_type("");
+			employeeVO.setMil_level("");
+			employeeVO.setMil_startdate("");
+			employeeVO.setMil_enddate("");
+		}
 		employeeInfo.setRegistration(employeeVO);
 	}
 	
-	private Date getConvertDate(String convertDate) throws ParseException{
+	private Date getConvertDate(String convertDate) throws Exception{
 		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
 		return transFormat.parse(convertDate);
 	}

@@ -36,7 +36,8 @@
 		job_type,
 		gart_level,
 		self_intro,
-		crm_name
+		crm_name,
+		human_image
 		from insa where sabun = #{sabun} order by sabun
 	</select>
 </mapper>

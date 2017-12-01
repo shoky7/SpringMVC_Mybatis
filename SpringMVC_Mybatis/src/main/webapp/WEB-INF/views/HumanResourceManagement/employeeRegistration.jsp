@@ -36,7 +36,7 @@
 			}
 		</style>
 		<script>
-		 	//연봉 콤마 나타내는 함수
+		 	// 연봉 콤마 나타내는 함수
 			function number_chk(obj){
 				var val = obj.value.replace(/,/g, "");
 				var val2 = val.substr(0, 1);
@@ -114,6 +114,7 @@
 				}
 			}
 			$(document).ready(function() {
+				//오늘 날짜.
 				document.getElementById('join_day').valueAsDate = new Date();
 				document.getElementById('retire_day').valueAsDate = new Date();
 				document.getElementById('mil_startdate').valueAsDate = new Date();
@@ -156,7 +157,9 @@
 						            	// JSON Text를 JSON Object로 변환
 						            	var resultObj = JSON.parse(result);
 						                var imagePath = '<c:out value="${myContext}"/>' + resultObj.filePath;
+						                var textPath = imagePath.replace("/SpringMVC_Mybatis/resources/uploadFiles/","");
 						                $('#humanImage').attr('src', imagePath);
+						                $('#human_image').val(textPath);
 						                console.log(imagePath);
 						            }
 								});
@@ -493,6 +496,7 @@
 						<td colspan="2" rowspan="6">
 							<div class="humanImage">
 								<img id="humanImage" class="humanImageSize" src="<c:out value="${myContext}"/>/resources/image/human.png">
+								<input type="hidden" name="human_image" id="human_image" value="">
 							</div>
 							<div class="btn-group" style="width:327px">
 								<input type="file" name="imageUpload" id="imageUpload" class="form-control btn btn-info"/>
@@ -639,9 +643,8 @@
 					<tr id="mil">
 						<td>군별</td>
 						<td>
-						
 							<select name="mil_type" class="form-control">
-							<option value=" ">(선택)</option>
+							<option value="">(선택)</option>
 							<c:forEach var="map" items="${mil_type}">
 								<option value="${map.get("CODE")}">${map.get("NAME")}</option>							
 							</c:forEach>
@@ -650,7 +653,7 @@
 						<td>계급</td>
 						<td>
 							<select name="mil_level" class="form-control">
-							<option value=" ">(선택)</option>
+							<option value="">(선택)</option>
 							<c:forEach var="map" items="${mil_level}">
 								<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
 							</c:forEach>
@@ -705,7 +708,7 @@
 					<tr>
 						<td rowspan="2">자기소개</td>
 						<td colspan="3">
-							<textarea name="self_intro" class="form-control" maxlength="30"></textarea>
+							<textarea name="self_intro" class="form-control" maxlength="100" placeholder="100자 내외로 적으시오"></textarea>
 						</td>
 						<td>이력서</td>
 						<td><input type="text" name="carrier" id="carrier" class="form-control" readonly="readonly"></td>
@@ -727,7 +730,7 @@
 			</table>
 		</form>
 				<!-- 미리보기 팝업창 form안에 있을 경우 submit 발생하기 때문에 form 밖에서 제어 -->
-		<div id="cmp_reg_image_modal">
+		<div id="cmp_reg_image_modal" style="top-align:-200px;">
 			<img id="cmp_reg_image_view" src="<c:out value="${myContext}"/>/resources/image/human.png">
 			<div style="text-align:right;">
 				<button class="js_close">닫기</button>

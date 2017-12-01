@@ -12,6 +12,17 @@
 		<script src="<C:out value="${myContext}"/>/resources/assets/jquery/jquery-3.2.1.min.js"></script>
 		<script src="<C:out value="${myContext}"/>/resources/assets/vendor/popper.min.js"></script>
 		<script src="<C:out value="${myContext}"/>/resources/assets/bootstrap/js/bootstrap.min.js"></script>
+		<script>
+		function search(){
+			$('#searchForm').submit();
+		}
+		
+		
+		$(document).ready(function() {
+			document.getElementById('join_day').valueAsDate = new Date();
+			document.getElementById('retire_day').valueAsDate = new Date();
+		});
+		</script>
 
 	</head>
 	<body>
@@ -32,7 +43,7 @@
     </nav>
 
 	<h3>&nbsp &nbsp직원리스트</h3>
-	<form>
+	<form name="searchForm" id="searchForm" action="/SpringMVC_Mybatis/employee/searchCtrl" method="post">
 		<table class="table">
 			<thead>
 			</thead>
@@ -40,28 +51,29 @@
 				<tr>
 					<td>사번 &nbsp</td>
 					<td>
-						<input type="text" name="sabun" class="form-control">
+						<input type="text" id="sabun" name="sabun" class="form-control">
 					</td>
 					<td>성명 &nbsp</td>
 					<td>
-						<input type="text" name="name" class="form-control">
+						<input type="text" id="name" name="name" class="form-control">
 					</td>
-					
+
 					<td>입사구분 &nbsp</td>
 					<td> 
-						<select name="join_gbn_code" class="form-control">
+						<select name="join_gbn_code" id="join_gbn_code" class="form-control">
 						<option>(선택)</option>
 						<C:forEach var="map" items="${join_gbn_code}">
-							<option value="${map.get("JOIN_GBN_CODE")}">${map.get("JOIN_GBN_CODE")}</option>						
+							<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
 						</C:forEach>
 						</select>
 					</td>
+					
 					<td>투입여부 &nbsp</td>
 					<td> 
-						<select name="put_yn" class="form-control">
+						<select name="put_yn" id="put_yn"class="form-control">
 						<option>(선택)</option>
 						<C:forEach var="map" items="${put_yn}">
-							<option value="${map.get("PUT_YN")}">${map.get("PUT_YN")}</option>						
+							<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
 						</C:forEach>
 						</select>
 					</td>
@@ -69,27 +81,27 @@
 				<tr>
 				<td>직위 &nbsp</td>
 					<td>
-						<select name="pos_gbn_code" class="form-control">
+						<select name="pos_gbn_code" id="pos_gbn_code" class="form-control">
 						<option>(선택)</option>
 						<C:forEach var="map" items="${pos_gbn_code}">
-							<option value="${map.get("POS_GBN_CODE")}">${map.get("POS_GBN_CODE")}</option>						
+							<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
 						</C:forEach>
 						</select>
 					</td>
 					<td>입사일자 &nbsp</td>
 					<td>
-						<input type=date name="join_day" class="form-control" >
+						<input type=date name="join_day" id="join_day" class="form-control" >
 					</td>
 					<td>퇴사일자 &nbsp</td>
 					<td>
-						<input type="date" name="retire_day" class="form-control">
+						<input type="date" name="retire_day" id="retire_day" class="form-control">
 					</td>
 					<td>직종분류 &nbsp</td>
 					<td>
-						<select name="job_type" class="form-control">
+						<select name="job_type" id="job_type" class="form-control">
 						<option>(선택)</option>
 						<C:forEach var="map" items="${job_type}">
-							<option value="${map.get("JOB_TYPE")}">${map.get("JOB_TYPE")}</option>						
+							<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
 						</C:forEach>
 						</select>
 					</td>
@@ -97,10 +109,34 @@
 			</tbody>
 		</table>
 		<div align="right">
-			<button type="button" class="btn btn-primary">검색</button>
-			<button type="button" class="btn btn-primary">초기화</button>
+			<button type="button" class="btn btn-primary" onclick="search()">검색</button>
+			<button type="reset" class="btn btn-primary">초기화</button>
 			<button type="button" class="btn btn-primary">이전</button>
 		</div>
+		<table class="table table-bordered">
+			<tr>
+				<td>사번</td>
+				<td>성명</td>
+				<td>주민번호</td>
+				<td>핸드폰번호</td>
+				<td>직위</td>
+				<td>입사일자</td>
+				<td>퇴사일자</td>
+				<td>투입여부</td>
+				<td>연봉</td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+				<td></td>
+			</tr>
+		</table>
 	</form>
 	</body>
 </html>

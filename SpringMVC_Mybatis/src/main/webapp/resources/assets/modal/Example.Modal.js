@@ -65,7 +65,6 @@ Example.Modal.prototype = {
     show : function() {
         // 가운데로 이동
         this.moveCenter();
- 
         // 배경레이어 적용
         this.applyOverlay();
  
@@ -110,7 +109,7 @@ Example.Modal.prototype = {
     moveCenter : function() {
         // left 좌표 구하기
         var left = Math.floor((this.c_width-this.width)/2);
- 
+
         // top 좌표 구하기
         var res_height; // 콘텐츠를 화면상의 가운데로 두었을 때의 높이
         if(this.c_height < this.height) { // 화면 높이 < 콘텐츠 레이어 높이

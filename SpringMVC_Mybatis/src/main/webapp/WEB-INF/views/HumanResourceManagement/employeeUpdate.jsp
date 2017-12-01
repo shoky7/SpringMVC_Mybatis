@@ -141,14 +141,14 @@
 				$("#email_select").val(emailArray[1]).prop("selected", true);
 				
 				//등록된 연봉 불러올때 , 넣기.
-					var textinput = $("#salary").val();
-					var tmp = ""
-					if (textinput.length > 3) {
-						tmp += textinput.substr(0, 1);
-						tmp += ',';
-						tmp += textinput.substr(1);
-						$("#salary").val(tmp);
-					} 
+				var textinput = $("#salary").val();
+				var tmp = ""
+				if (textinput.length > 3) {
+					tmp += textinput.substr(0, 1);
+					tmp += ',';
+					tmp += textinput.substr(1);
+					$("#salary").val(tmp);
+				} 
 				
 				// 미필시 테이블 없애기
 				if($('#mil_yn').val()==2){
@@ -189,7 +189,9 @@
 						            	// JSON Text를 JSON Object로 변환
 						            	var resultObj = JSON.parse(result);
 						                var imagePath = '<c:out value="${myContext}"/>' + resultObj.filePath;
+						                var textPath = imagePath.replace("/SpringMVC_Mybatis/resources/uploadFiles/","");
 						                $('#humanImage').attr('src', imagePath);
+						                $('#human_image').val(textPath);
 						                console.log(imagePath);
 						            }
 								});
@@ -220,6 +222,7 @@
 				                var imagePath = '<c:out value="${myContext}"/>' + resultObj.filePath;
 				                var textPath = imagePath.replace("/SpringMVC_Mybatis/resources/uploadFiles/","");
 				                $('#carrier').val(textPath);
+				                $('#carrierDownload').prop('href',imagePath);
 				                $('#carrier_modal_view').attr('src', imagePath);
 				                console.log(imagePath);
 				            }
@@ -230,11 +233,11 @@
 				});	
 				
 				// 이력서 업로드 미리보기
-				$('#carrierUploadView').click(function() {
+				$('#carrierUploadDownload').click(function() {
 					if($('#carrier').val()==""){
 						alert("파일을 등록하세요.");
 					}else{
-					    mycarrier_modal.show(); // 모달창 보여주기
+						
 					}
 				});
 				
@@ -530,9 +533,17 @@
 				<tbody>
 					<tr>
 						<td colspan="2" rowspan="6">
+						<input type="hidden" name="human_image" id="human_image" value="${employeeVO.human_image}">
+						<c:if test="${employeeVO.human_image == null}">
 							<div class="humanImage">
 								<img id="humanImage" class="humanImageSize" src="<c:out value="${myContext}"/>/resources/image/human.png">
 							</div>
+						</c:if>
+						<c:if test="${employeeVO.human_image != null}">
+							<div class="humanImage">
+								<img id="humanImage" class="humanImageSize" src="<c:out value="${myContext}"/>/resources/uploadFiles/${employeeVO.human_image}">
+							</div>
+						</c:if>
 							<div class="btn-group" style="width:327px">
 								<input type="file" name="imageUpload" id="imageUpload" class="form-control btn btn-info"/>
 								<button type="button" id="imageUploadBtn" class="btn btn-primary"><i class="fa fa-camera" aria-hidden="true"></i> 등록</button>
@@ -679,7 +690,7 @@
 						<td>군별</td>
 						<td>
 							<select name="mil_type" id="mil_type" class="form-control">
-							<option value=" ">(선택)</option>
+							<option value="">(선택)</option>
 							<c:forEach var="map" items="${mil_type}">
 								<option value="${map.get("CODE")}">${map.get("NAME")}</option>							
 							</c:forEach>
@@ -688,7 +699,7 @@
 						<td>계급</td>
 						<td>
 							<select name="mil_level" id="mil_level" class="form-control">
-							<option value=" ">(선택)</option>
+							<option value="">(선택)</option>
 							<c:forEach var="map" items="${mil_level}">
 								<option value="${map.get("CODE")}">${map.get("NAME")}</option>						
 							</c:forEach>
@@ -743,13 +754,12 @@
 					<tr>
 						<td rowspan="2">자기소개</td>
 						<td colspan="3">
-							<textarea name="self_intro" class="form-control" maxlength="30">${employeeVO.self_intro}</textarea>
+							<textarea name="self_intro" class="form-control" maxlength="100" placeholder="100자 내외로 적으시오">${employeeVO.self_intro}</textarea>
 						</td>
 						<td>이력서</td>
-						<td><input type="text" name="carrier" id="carrier" class="form-control" value="${employeeVO.carrier}" readonly="readonly"></td>
+						<td><input type="text" name="carrier" id="carrier" value="${employeeVO.carrier}" class="form-control" readonly="readonly"></td>
 						<td>
-							<button  type="button" id="carrierUploadView" class="btn btn-secondary">미리보기</button>
-
+							<a id="carrierDownload" href="<c:out value="${myContext}"/>/resources/uploadFiles/${employeeVO.carrier}" download><button type="button" class="btn btn-secondary">다운로드</button></a>
 						</td>
 						<td>
 							<div class="btn-group" style="width:327px">
@@ -766,13 +776,7 @@
 		</form>
 				<!-- 미리보기 팝업창 form안에 있을 경우 submit 발생하기 때문에 form 밖에서 제어 -->
 		<div id="cmp_reg_image_modal">
-			<img id="cmp_reg_image_view" src="<c:out value="${myContext}"/>/resources/image/human.png">
-			<div style="text-align:right;">
-				<button class="js_close">닫기</button>
-			</div>
-		</div>
-		<div id="carrier_modal">
-			<img id="carrier_modal_view" src="<c:out value="${myContext}"/>/resources/image/human.png">
+			<img id="cmp_reg_image_view" src="<c:out value="${myContext}"/>/resources/uploadFiles/${employeeVO.cmp_reg_image}">
 			<div style="text-align:right;">
 				<button class="js_close">닫기</button>
 			</div>

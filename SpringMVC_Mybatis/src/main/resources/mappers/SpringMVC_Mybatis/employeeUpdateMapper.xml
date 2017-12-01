@@ -36,7 +36,8 @@
 		job_type = #{job_type},
 		gart_level = #{gart_level},
 		self_intro = #{self_intro},
-		crm_name = #{crm_name}
+		crm_name = #{crm_name},
+		human_image = #{human_image}
 		WHERE sabun = #{sabun}
 	</update>
 </mapper>

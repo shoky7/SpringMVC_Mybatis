@@ -41,6 +41,7 @@ public class EmployeeVO {
 	private String gart_level;
 	private String self_intro;
 	private String crm_name;
+	private String human_image;
 	public String getSabun() {
 		return sabun;
 	}
@@ -270,7 +271,12 @@ public class EmployeeVO {
 	public void setCrm_name(String crm_name) {
 		this.crm_name = crm_name;
 	}
-	
+	public String getHuman_image() {
+		return human_image;
+	}
+	public void setHuman_image(String human_image) {
+		this.human_image = human_image;
+	}
 	@Override
 	public String toString() {
 		return "EmployeeVO [sabun=" + sabun + ", join_day=" + join_day + ", retire_day=" + retire_day + ", put_yn="

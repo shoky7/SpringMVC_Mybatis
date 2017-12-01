@@ -26,17 +26,9 @@ public class EmployeeController {
 	private EmployeeInquiryService employeeInquiryService;
 	
 	@RequestMapping(value = "search", method = RequestMethod.GET, name="employee Search searchCtrl")
-	public String searchCtrl(Model model) {
-		logger.info("searchCtrl");
-		List<Map<String, Object>> join_gbn_code_list = employeeInfoService.getJoin_gbn_codeSVC();
-		List<Map<String, Object>> put_yn_list = employeeInfoService.getPut_ynSVC();
-		List<Map<String, Object>> pos_gbn_code_list = employeeInfoService.getPos_gbn_codeSVC();	
-		List<Map<String, Object>> job_type_list = employeeInfoService.getJob_typeSVC();
-
-		model.addAttribute("join_gbn_code", join_gbn_code_list);
-		model.addAttribute("put_yn", put_yn_list);
-		model.addAttribute("pos_gbn_code", pos_gbn_code_list);
-		model.addAttribute("job_type", job_type_list);
+	public String searchForm(Model model) {
+		logger.info("searchForm");
+		modelData(model);
 		return "HumanResourceManagement/search";
 	}
 	
@@ -71,7 +63,6 @@ public class EmployeeController {
 		model.addAttribute("kosa_reg_yn", kosa_reg_yn_list);
 		model.addAttribute("kosa_class_code", kosa_class_code_list);
 	}
-	
 	@RequestMapping(value="registration", method = RequestMethod.GET, name="registration page loading")
 	public String getEmployeeRegistrationCtrl(Model model){
 		logger.info("getEmployeeRegistrationCtrl");
@@ -80,8 +71,6 @@ public class EmployeeController {
 		modelData(model);
 		return "HumanResourceManagement/employeeRegistration";
 	}
-	
-	
 	
 	@RequestMapping(value="registration", method = RequestMethod.POST, name="registration page")
 	public String setEmployeeRegistrationCtrl(EmployeeVO employeeVO,Model model) throws Exception{

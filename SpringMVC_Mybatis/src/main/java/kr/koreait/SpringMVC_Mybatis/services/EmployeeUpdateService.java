@@ -18,13 +18,18 @@ public class EmployeeUpdateService {
 	
 	@Autowired
 	private EmployeeUpdate employeeUadate;
-	
 	public void employeeUpdateSVC(EmployeeVO employeeVO) throws Exception {
 		logger.info("employeeUpdateSVC");
 		employeeVO.setSalary(employeeVO.getSalary().replace(",", ""));
 		employeeVO.setEmail(employeeVO.getEmail()+ "@" +employeeVO.getEmail2());
 		employeeVO.setConvertJoin_day(getConvertDate(employeeVO.getJoin_day()));
 		employeeVO.setConvertRetire_day(getConvertDate(employeeVO.getRetire_day()));
+		if(employeeVO.getMil_yn().equals("2") || employeeVO.getMil_yn().equals(" ")){
+			employeeVO.setMil_type("");
+			employeeVO.setMil_level("");
+			employeeVO.setMil_startdate("");
+			employeeVO.setMil_enddate("");
+		}
 		employeeUadate.employeeUpdateByVO(employeeVO);
 	}
 	
@@ -32,5 +37,4 @@ public class EmployeeUpdateService {
 		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
 		return transFormat.parse(convertDate);
 	}
-	
 }
