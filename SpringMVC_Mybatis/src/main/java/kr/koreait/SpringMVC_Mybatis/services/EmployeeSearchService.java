@@ -1,5 +1,6 @@
 package kr.koreait.SpringMVC_Mybatis.services;
 
+import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +15,8 @@ public class EmployeeSearchService {
 	
 	@Autowired
 	private EmployeeSearch employeeSearch;
-	
-	public EmployeeVO employeeSearchSVC(EmployeeVO employeeVO){
+	public ArrayList<EmployeeVO> employeeSearchSVC(EmployeeVO employeeVO){
 		logger.info("employeeSearchSVC");
-		
-		return employeeSearch.employeeSearchSVC(employeeVO);
+		return employeeSearch.EmployeeSearch(employeeVO);
 	}
 }

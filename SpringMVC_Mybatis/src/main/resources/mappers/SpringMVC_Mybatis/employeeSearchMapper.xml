@@ -1,43 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="kr.koreait.SpringMVC_Mybatis.mapper.employeeSearchMapper">
-	<select id="EmployeeSearch" parameterType="kr.koreait.SpringMVC_Mybatis.vo.EmployeeVO">
+<mapper namespace="kr.koreait.SpringMVC_Mybatis.mapper.EmployeeSearch">
+	<select id="EmployeeSearch" parameterType="kr.koreait.SpringMVC_Mybatis.vo.EmployeeVO" resultType="kr.koreait.SpringMVC_Mybatis.vo.EmployeeVO">
 		select sabun,
-			join_day,
-			retire_day,
-			put_yn,
-			name,
-			reg_no,
-			eng_name,
-			phone,
-			hp,
-			carrier,
-			pos_gbn_code,
-			cmp_reg_no,
-			cmp_reg_image,
-			sex,
-			years,
-			email,
-			zip,
-			addr1,
-			addr2,
-			dept_code,
-			join_gbn_code,
-			id,
-			pwd,
-			salary,
-			kosa_reg_yn,
-			kosa_class_code,
-			mil_yn,
-			mil_type,
-			mil_level,
-			mil_startdate,
-			mil_enddate,
-			job_type,
-			gart_level,
-			self_intro,
-			crm_name,
-			human_image
-			from insa where sabun = #{sabun} order by sabun
+		name,
+		reg_no,
+		hp,
+		pos_gbn_code,
+		to_char(join_day, 'yyyy-mm-dd')as join_day,
+		to_char(retire_day,'yyyy-mm-dd')as retire_day,
+		put_yn,
+		to_char(salary,'999,999,999') as salary
+		from insa where (1=1
+			<if test="sabun != ''">
+				and sabun = #{sabun}
+			</if>
+			<if test="name != ''">
+				and name like '%'||#{name}||'%'
+			</if>
+			<if test="join_gbn_code != ''">
+				and join_gbn_code = #{join_gbn_code}
+			</if>
+			<if test="put_yn != ''">
+				and put_yn = #{put_yn}
+			</if>
+			<if test="pos_gbn_code != ''">
+				and pos_gbn_code = #{pos_gbn_code}
+			</if>
+			<if test="join_day != ''">
+				and join_day = #{join_day}
+			</if>
+			<if test="retire_day != ''">
+				and retire_day = #{retire_day}
+			</if>
+			<if test="job_type != ''">
+				and job_type = #{job_type}
+			</if>
+		) order by sabun
 	</select>
 </mapper>

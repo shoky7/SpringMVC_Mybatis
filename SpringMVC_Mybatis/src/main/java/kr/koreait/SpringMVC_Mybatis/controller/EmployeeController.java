@@ -25,13 +25,6 @@ public class EmployeeController {
 	@Autowired
 	private EmployeeInquiryService employeeInquiryService;
 	
-	@RequestMapping(value = "search", method = RequestMethod.GET, name="employee Search searchCtrl")
-	public String searchForm(Model model) {
-		logger.info("searchForm");
-		modelData(model);
-		return "HumanResourceManagement/search";
-	}
-	
 	private void modelData(Model model){
 		// TODO:
 		// 셀렉트박스들의 기본적인 데이터를 DB를 조회하여, 페이지에 데이터를 넘겨준다.

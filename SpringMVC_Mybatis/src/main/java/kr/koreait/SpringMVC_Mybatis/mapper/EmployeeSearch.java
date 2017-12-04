@@ -1,7 +1,11 @@
 package kr.koreait.SpringMVC_Mybatis.mapper;
 
+import java.util.ArrayList;
+
 import kr.koreait.SpringMVC_Mybatis.vo.EmployeeVO;
 
 public interface EmployeeSearch {
-	EmployeeVO employeeSearchSVC(EmployeeVO employeeVO);
+
+	ArrayList<EmployeeVO> EmployeeSearch(EmployeeVO employeeVO);
+
 }

@@ -42,6 +42,7 @@ public class EmployeeVO {
 	private String self_intro;
 	private String crm_name;
 	private String human_image;
+	
 	public String getSabun() {
 		return sabun;
 	}
