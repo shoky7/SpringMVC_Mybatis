@@ -123,7 +123,7 @@
 				// 등록했던 정보 selectbox 불러오기. 
 				$("#job_type").val('${employeeVO.job_type}').prop("selected", true);
 				$("#sex").val('${employeeVO.sex}').prop("selected", true);
-				$("#pos_gbn_code").val('${employeeVO.sex}').prop("selected", true);
+				$("#pos_gbn_code").val('${employeeVO.pos_gbn_code}').prop("selected", true);
 				$("#dept_code").val('${employeeVO.dept_code}').prop("selected", true);
 				$("#gart_level").val('${employeeVO.gart_level}').prop("selected", true);
 				$("#put_yn").val('${employeeVO.put_yn}').prop("selected", true);
@@ -133,7 +133,8 @@
 				$("#kosa_reg_yn").val('${employeeVO.kosa_reg_yn}').prop("selected", true);
 				$("#kosa_class_code").val('${employeeVO.kosa_class_code}').prop("selected", true);
 				$("#join_gbn_code").val('${employeeVO.join_gbn_code}').prop("selected", true);
-				
+				$('#join_day').val('${employeeVO.join_day}');
+				$('#retire_day').val('${employeeVO.retire_day}');				
 				// 등록된 이메일 불러오기.
 				var emailArray = '${employeeVO.email}'.split('@');
 				$('#email').val(emailArray[0]);

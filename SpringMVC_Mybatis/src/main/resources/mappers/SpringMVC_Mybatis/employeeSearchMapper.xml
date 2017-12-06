@@ -1,41 +1,89 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.koreait.SpringMVC_Mybatis.mapper.EmployeeSearch">
-	<select id="EmployeeSearch" parameterType="kr.koreait.SpringMVC_Mybatis.vo.EmployeeVO" resultType="kr.koreait.SpringMVC_Mybatis.vo.EmployeeVO">
+	<select id="EmployeeSearch" parameterType="hashmap" resultType="kr.koreait.SpringMVC_Mybatis.vo.EmployeeVO">
+	<![CDATA[
+	select * from (
+		select rownum rnum, T.* from (
+			select sabun,
+			name,
+			reg_no,
+			hp,
+			(select insa_com.name from insa_com where pos_gbn_code = insa_com.code and insa_com.gubun='pos_gbn_code') as pos_gbn_code,
+			to_char(join_day, 'yyyy-mm-dd')as join_day,
+			to_char(retire_day,'yyyy-mm-dd')as retire_day,
+			(select insa_com.name from insa_com where put_yn = insa_com.code and insa_com.gubun='put_yn') as put_yn,
+			to_char(salary,'999,999,999') as salary
+			from insa where (1=1
+	]]>
+			<if test="employeeVO.sabun != ''">
+				and sabun = #{employeeVO.sabun}
+			</if>
+			<if test="employeeVO.name != ''">
+				and name like '%'||#{employeeVO.name}||'%'
+			</if>
+			<if test="employeeVO.join_gbn_code != ''">
+				and join_gbn_code = #{employeeVO.join_gbn_code}
+			</if>
+			<if test="employeeVO.put_yn != ''">
+				and put_yn = #{employeeVO.put_yn}
+			</if>
+			<if test="employeeVO.pos_gbn_code != ''">
+				and pos_gbn_code = #{employeeVO.pos_gbn_code}
+			</if>
+			<if test="employeeVO.join_day != ''">
+				and join_day = #{employeeVO.join_day}
+			</if>
+			<if test="employeeVO.retire_day != ''">
+				and retire_day = #{employeeVO.retire_day}
+			</if>
+			<if test="employeeVO.job_type != ''">
+				and job_type = #{employeeVO.job_type}
+			</if>
+		<![CDATA[
+				) order by sabun
+			) T where rownum <= #{endNo}
+		) where rnum >= #{startNo}
+			]]>
+			
+	</select>
+	<!-- 검색된 글의 갯수를 가져온다. -->
+	<select id="EmployeeCount" parameterType="kr.koreait.SpringMVC_Mybatis.vo.EmployeeVO" resultType="int">
+		select count(*) from(
 		select sabun,
-		name,
-		reg_no,
-		hp,
-		pos_gbn_code,
-		to_char(join_day, 'yyyy-mm-dd')as join_day,
-		to_char(retire_day,'yyyy-mm-dd')as retire_day,
-		put_yn,
-		to_char(salary,'999,999,999') as salary
-		from insa where (1=1
-			<if test="sabun != ''">
-				and sabun = #{sabun}
-			</if>
-			<if test="name != ''">
-				and name like '%'||#{name}||'%'
-			</if>
-			<if test="join_gbn_code != ''">
-				and join_gbn_code = #{join_gbn_code}
-			</if>
-			<if test="put_yn != ''">
-				and put_yn = #{put_yn}
-			</if>
-			<if test="pos_gbn_code != ''">
-				and pos_gbn_code = #{pos_gbn_code}
-			</if>
-			<if test="join_day != ''">
-				and join_day = #{join_day}
-			</if>
-			<if test="retire_day != ''">
-				and retire_day = #{retire_day}
-			</if>
-			<if test="job_type != ''">
-				and job_type = #{job_type}
-			</if>
-		) order by sabun
+				name,
+				reg_no,
+				hp,
+				pos_gbn_code,
+				join_day,
+				retire_day,
+				put_yn,
+				to_char(salary,'999,999,999') as salary
+				from insa where (1=1
+				<if test="sabun != ''">
+					and sabun = #{sabun}
+				</if>
+				<if test="name != ''">
+					and name like '%'||#{name}||'%'
+				</if>
+				<if test="join_gbn_code != ''">
+					and join_gbn_code = #{join_gbn_code}
+				</if>
+				<if test="put_yn != ''">
+					and put_yn = #{put_yn}
+				</if>
+				<if test="pos_gbn_code != ''">
+					and pos_gbn_code = #{pos_gbn_code}
+				</if>
+				<if test="join_day != ''">
+					and join_day = #{join_day}
+				</if>
+				<if test="retire_day != ''">
+					and retire_day = #{retire_day}
+				</if>
+				<if test="job_type != ''">
+					and job_type = #{job_type}
+				</if>
+				) order by sabun)
 	</select>
 </mapper>

@@ -1,8 +1,10 @@
 package kr.koreait.SpringMVC_Mybatis.controller;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +15,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import kr.koreait.SpringMVC_Mybatis.services.EmployeeInfoService;
+import kr.koreait.SpringMVC_Mybatis.services.EmployeeInquiryService;
 import kr.koreait.SpringMVC_Mybatis.services.EmployeeSearchService;
+import kr.koreait.SpringMVC_Mybatis.vo.EmployeePage;
 import kr.koreait.SpringMVC_Mybatis.vo.EmployeeVO;
 
 @Controller
@@ -24,6 +28,8 @@ public class SearchController {
 	private EmployeeSearchService employeeSearchService;
 	@Autowired
 	private EmployeeInfoService employeeInfoService;
+	@Autowired
+	private EmployeeInquiryService employeeInquiryService;
 	
 	private void modelData(Model model){
 		// TODO:
@@ -44,13 +50,39 @@ public class SearchController {
 		modelData(model);
 		return "HumanResourceManagement/search";
 	}
-	
 	@RequestMapping(value="searchCtrl", method=RequestMethod.POST, name="searchCtrl")
-	public String searchCtrl(EmployeeVO employeeVO, Model model){
+	public String searchCtrl(EmployeeVO employeeVO,Model model,HttpServletRequest request){
 		logger.info("searchCtrl");
 		modelData(model);
-		ArrayList<EmployeeVO> EmployeeVOList = employeeSearchService.employeeSearchSVC(employeeVO);
+		model.addAttribute("employeeVO",employeeVO);
+//		테이블에 검색된 글의 갯수를 total해서 가져온다.
+		int totalCount =  employeeSearchService.SearchCount(employeeVO);
+//		글 갯수
+		int pageSize = 10;
+//		현재페이지
+		int currentPage = 1;
+		try{
+			currentPage =Integer.parseInt(request.getParameter("currentPage"));
+		}catch (Exception e) {}
+
+		EmployeePage EmployeeVOList = new EmployeePage(pageSize, totalCount, currentPage);
+		HashMap<String, Object> hmap = new HashMap<String, Object>();
+		hmap.put("startNo", EmployeeVOList.getStartNo());
+		hmap.put("endNo", EmployeeVOList.getEndNo());
+		hmap.put("employeeVO", employeeVO);
+		EmployeeVOList.setList(employeeSearchService.employeeSearchSVC(hmap));
 		model.addAttribute("EmployeeVOList",EmployeeVOList);
 		return "HumanResourceManagement/search";
+	}
+	@RequestMapping(value="searchUpdate", method=RequestMethod.POST, name="searchUpdate")
+	public String SearchCtrlCtrl(EmployeeVO employeeVO,Model model){
+		logger.info("searchUpdate");
+		System.out.println(employeeVO.getSabun());
+		employeeVO = employeeInquiryService.employeeInquiryBySabunSVC(employeeVO.getSabun());
+        employeeVO.setJoin_day(employeeVO.getJoin_day().substring(0, 10));
+        employeeVO.setRetire_day(employeeVO.getRetire_day().substring(0, 10));
+		model.addAttribute("employeeVO",employeeVO);
+		modelData(model);
+		return "HumanResourceManagement/employeeUpdate";
 	}
 }

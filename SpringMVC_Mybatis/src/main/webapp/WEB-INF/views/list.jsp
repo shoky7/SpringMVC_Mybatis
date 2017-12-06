@@ -23,7 +23,6 @@
 		<td>${vo.idx}</td>
 		<td>${vo.name}</td>
 		<td>
-		
 			<c:if test="${vo.lev > 0}">
 				<c:forEach var="i" begin="1" end="${vo.lev}" step="1">
 					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -32,7 +31,6 @@
 			</c:if>
 		<!-- useBean을 사용해 컴퓨터의 날짜와 시간을 얻어온다. -->
 		<jsp:useBean id="date" class="java.util.Date"/>
-		
 			<c:set var="subject" value="${fn:replace(vo.subject, '<', '&lt;')}"/>
 			<c:set var="subject" value="${fn:replace(subject, '>', '&gt;')}"/>
 			<a href="increment?idx=${vo.idx}">${subject}</a>

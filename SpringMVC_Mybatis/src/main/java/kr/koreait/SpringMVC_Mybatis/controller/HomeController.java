@@ -32,7 +32,6 @@ public class HomeController {
 	private SqlSession sqlSession;
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
-	
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -152,9 +151,4 @@ public class HomeController {
 			return "passwordcheak";
 		}
 	}
-	
-	
-	
-	
-	
 }

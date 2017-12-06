@@ -6,7 +6,6 @@
 	<head>
 		<style>
 		#sabun,#sabun_result,#reg_no_result,#hp_result,#retire_day_result,#join_day_result,#salary_result{ text-align:right; }
-		
 		</style>
 		<meta charset="UTF-8">
 		<title>직원리스트</title>
@@ -20,18 +19,42 @@
 		function search(){
 			$('#searchForm').submit();
 		}
-		
+		function page(currentPage){
+			$('#currentPage').val(currentPage);
+			$('#searchForm').submit();
+		}
+		function searchUpdate(sabun) {
+			var formData = new FormData(sabun);
+			formData.append('sabun', sabun);
+				$.ajax({
+		            url: 			'/SpringMVC_Mybatis/employee/searchUpdate',
+		            type: 			'POST',
+		            data: 			formData,
+		            error: function(req){
+						alert(req);
+		            },
+		            success: function(result){
+						alert("성공");
+		            }
+			});
+		}
 		
 		$(document).ready(function() {
+			// 등록했던 정보 selectbox 불러오기. 
+			$('#job_type').val('${employeeVO.job_type}').prop("selected", true);
+			$('#pos_gbn_code').val('${employeeVO.pos_gbn_code}').prop("selected", true);
+			$('#put_yn').val('${employeeVO.put_yn}').prop("selected", true);
+			$('#join_gbn_code').val('${employeeVO.join_gbn_code}').prop("selected", true);
+			$('#join_day').val('${employeeVO.join_day}');
+			$('#retire_day').val('${employeeVO.retire_day}');
+
 			$("#sabun").keyup(function() {
 				var textinput = $("#sabun").val();
 				textinput = textinput.replace(/[^0-9]/g, '');
 				$("#sabun").val(textinput);
 			});
-			
 		});
 		</script>
-
 	</head>
 	<body>
     <nav class="navbar navbar-expand-md navbar-light bg-light mb-4">
@@ -59,11 +82,11 @@
 				<tr>
 					<td>사번 &nbsp</td>
 					<td>
-						<input type="text" id="sabun" name="sabun" class="form-control">
+						<input type="text" id="sabun" name="sabun" value="${employeeVO.sabun}" class="form-control">
 					</td>
 					<td>성명 &nbsp</td>
 					<td>
-						<input type="text" id="name" name="name" class="form-control">
+						<input type="text" id="name" name="name" class="form-control" value="${employeeVO.name}">
 					</td>
 
 					<td>입사구분 &nbsp</td>
@@ -133,8 +156,8 @@
 				<td>투입여부</td>
 				<td>연봉</td>
 			</tr>
-			<c:forEach var="vo" items="${EmployeeVOList}">
-			<tr>
+			<c:forEach var="vo" items="${EmployeeVOList.list}">
+			<tr ondblclick="searchUpdate(${vo.sabun})">
 				<td id="sabun_result">${vo.sabun}</td>
 				<td>${vo.name}</td>
 				<td id="reg_no_result">${vo.reg_no}</td>
@@ -142,11 +165,52 @@
 				<td>${vo.pos_gbn_code}</td>
 				<td id="join_day_result">${vo.join_day}</td>
 				<td id="retire_day_result">${vo.retire_day}</td>
-				<td></td>
+				<td>${vo.put_yn}</td>
 				<td id="salary_result">${vo.salary}</td>
 			</tr>
 			</c:forEach>
-		</table>
+			
+			<!-- 페이지 -->
+			<c:if test="${EmployeeVOList.totalCount == null || EmployeeVOList.totalCount == 0 }">
+				<tr>
+					<td align="center" colspan="9">검색된 데이터가 없습니다.</td>
+				</tr>
+			</c:if>
+			<c:if test="${EmployeeVOList.totalCount > 0}">
+				<tr>
+					<input type="hidden" name="currentPage" id="currentPage"/>
+					<td align="center" colspan="9">
+						<c:if test="${EmployeeVOList.startPage > 1}">
+							<input type="button" value="start" class="btn btn-primary" onclick="location.href='?currentPage=1'"/>
+							<input type="button" value="&lt;10" class="btn btn-primary"
+							onclick="page('${EmployeeVOList.startPage - 1}')"/>
+						</c:if>
+						<c:if test="${EmployeeVOList.startPage <= 1}">
+							<input type="button" value="start" class="btn btn-primary" disabled="disabled"/>
+							<input type="button" value="&lt;10" class="btn btn-primary" disabled="disabled"/>
+						</c:if>
+						<c:forEach var="i" begin="${EmployeeVOList.startPage}" end="${EmployeeVOList.endPage}" step="1">
+							<c:if test="${EmployeeVOList.currentPage == i}">
+								<input type="button" class="btn btn-primary" value="${i}" disabled="disabled"/>
+							</c:if>
+							<c:if test="${EmployeeVOList.currentPage != i}">
+								<input type="button" class="btn btn-primary"value="${i}" onclick="page(${i})"/>
+							</c:if>
+						</c:forEach>
+						<c:if test="${EmployeeVOList.endPage < EmployeeVOList.totalPage }">
+							<input type="button" value="&gt;10" class="btn btn-primary"
+							onclick="location.href='?currentPage=${EmployeeVOList.endPage + 1}'"/>
+							<input type="button" value="end" class="btn btn-primary"
+							onclick="location.href='?currentPage=${EmployeeVOList.totalPage}'"/>
+						</c:if>
+						<c:if test="${EmployeeVOList.endPage >= EmployeeVOList.totalPage }">
+							<input type="button" value="&gt;10" class="btn btn-primary" disabled="disabled"/>
+							<input type="button" value="end" class="btn btn-primary" disabled="disabled"/>
+						</c:if>
+					</td>
+				</tr>
+			</c:if>
+	</table>
 	</form>
 	</body>
 </html>
