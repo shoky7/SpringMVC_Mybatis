@@ -24,19 +24,10 @@
 			$('#searchForm').submit();
 		}
 		function searchUpdate(sabun) {
-			var formData = new FormData(sabun);
-			formData.append('sabun', sabun);
-				$.ajax({
-		            url: 			'/SpringMVC_Mybatis/employee/searchUpdate',
-		            type: 			'POST',
-		            data: 			formData,
-		            error: function(req){
-						alert(req);
-		            },
-		            success: function(result){
-						alert("성공");
-		            }
-			});
+			if(confirm("수정하시겠습니까?")){
+				$('#updateSabun').val(sabun);
+				$('#searchUpdate').submit();
+			}
 		}
 		
 		$(document).ready(function() {
@@ -73,7 +64,11 @@
       </div>
     </nav>
 
+
 	<h3>&nbsp &nbsp직원리스트</h3>
+	<form id="searchUpdate" action="/SpringMVC_Mybatis/employee/searchUpdate" method="post">
+		<input type="hidden" name="updateSabun" id="updateSabun">
+	</form>
 	<form name="searchForm" id="searchForm" action="/SpringMVC_Mybatis/employee/searchCtrl" method="post">
 		<table class="table">
 			<thead>
@@ -141,8 +136,8 @@
 		</table>
 		<div align="right">
 			<button type="button" class="btn btn-primary" onclick="search()">검색</button>
-			<button type="reset" class="btn btn-primary">초기화</button>
-			<button type="button" class="btn btn-primary">이전</button>
+			<button type="button" class="btn btn-primary" onclick = "location.href ='/SpringMVC_Mybatis/employee/search'">초기화</button>
+			<button type="button" class="btn btn-primary" onclick = "location.href ='/SpringMVC_Mybatis/index'">이전</button>
 		</div>
 		<table class="table table-bordered">
 			<tr>
@@ -181,13 +176,13 @@
 					<input type="hidden" name="currentPage" id="currentPage"/>
 					<td align="center" colspan="9">
 						<c:if test="${EmployeeVOList.startPage > 1}">
-							<input type="button" value="start" class="btn btn-primary" onclick="location.href='?currentPage=1'"/>
-							<input type="button" value="&lt;10" class="btn btn-primary"
+							<input type="button" value="&lt;&lt;" class="btn btn-primary" onclick="page(1)"/>
+							<input type="button" value="&lt;" class="btn btn-primary"
 							onclick="page('${EmployeeVOList.startPage - 1}')"/>
 						</c:if>
 						<c:if test="${EmployeeVOList.startPage <= 1}">
-							<input type="button" value="start" class="btn btn-primary" disabled="disabled"/>
-							<input type="button" value="&lt;10" class="btn btn-primary" disabled="disabled"/>
+							<input type="button" value="&lt;&lt;" class="btn btn-primary" disabled="disabled"/>
+							<input type="button" value="&lt;" class="btn btn-primary" disabled="disabled"/>
 						</c:if>
 						<c:forEach var="i" begin="${EmployeeVOList.startPage}" end="${EmployeeVOList.endPage}" step="1">
 							<c:if test="${EmployeeVOList.currentPage == i}">
@@ -198,14 +193,14 @@
 							</c:if>
 						</c:forEach>
 						<c:if test="${EmployeeVOList.endPage < EmployeeVOList.totalPage }">
-							<input type="button" value="&gt;10" class="btn btn-primary"
-							onclick="location.href='?currentPage=${EmployeeVOList.endPage + 1}'"/>
-							<input type="button" value="end" class="btn btn-primary"
-							onclick="location.href='?currentPage=${EmployeeVOList.totalPage}'"/>
+							<input type="button" value="&gt;" class="btn btn-primary"
+							onclick="page(${EmployeeVOList.endPage + 1})"/>
+							<input type="button" value="&gt;&gt;" class="btn btn-primary"
+							onclick="page(${EmployeeVOList.totalPage})"/>
 						</c:if>
 						<c:if test="${EmployeeVOList.endPage >= EmployeeVOList.totalPage }">
-							<input type="button" value="&gt;10" class="btn btn-primary" disabled="disabled"/>
-							<input type="button" value="end" class="btn btn-primary" disabled="disabled"/>
+							<input type="button" value="&gt;" class="btn btn-primary" disabled="disabled"/>
+							<input type="button" value="&gt;&gt;" class="btn btn-primary" disabled="disabled"/>
 						</c:if>
 					</td>
 				</tr>

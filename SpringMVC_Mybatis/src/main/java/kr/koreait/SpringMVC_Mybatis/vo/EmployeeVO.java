@@ -42,7 +42,15 @@ public class EmployeeVO {
 	private String self_intro;
 	private String crm_name;
 	private String human_image;
+	private String updateSabun;
 	
+	
+	public String getUpdateSabun() {
+		return updateSabun;
+	}
+	public void setUpdateSabun(String updateSabun) {
+		this.updateSabun = updateSabun;
+	}
 	public String getSabun() {
 		return sabun;
 	}

@@ -37,6 +37,14 @@
 		</style>
 		<script>
 
+			// 글을 삭제하기 위해 글번호를 보내는 함수
+			function  employeeDelete(sabun) {
+				if(confirm("정말로 삭제하시겠습니까?")){
+					$('#updateSabun').val(sabun);
+					$('#employeeDelete').submit();
+				}
+			}
+		
 		
 		 	//연봉 콤마 나타내는 함수
 			function number_chk(obj){
@@ -527,8 +535,13 @@
 		<div align="right">
 			<button type="button" class="btn btn-primary" onclick = "employeeUpdate()">수정</button>
 			<button type="button" class="btn btn-primary" onclick = "location.href ='/SpringMVC_Mybatis/employee/registration'">초기화</button>
+			<button type="button" class="btn btn-primary" onclick = "employeeDelete(${employeeVO.sabun})">삭제</button>
 			<button type="button" class="btn btn-primary" onclick = "location.href ='/SpringMVC_Mybatis/index'">메인화면</button>
 		</div>
+		
+		<form id="employeeDelete" action= "/SpringMVC_Mybatis/employee/employeeDelete" method="post">
+			<input type="hidden" name="updateSabun" id="updateSabun">
+		</form>
 		<form id ="formReg" action= "/SpringMVC_Mybatis/employee/employeeUpdate" method="post">
 			<table class="table">
 				<tbody>

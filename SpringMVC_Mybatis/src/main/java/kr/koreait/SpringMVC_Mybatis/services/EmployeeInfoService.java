@@ -76,8 +76,7 @@ public class EmployeeInfoService {
 		employeeVO.setEmail(employeeVO.getEmail()+ "@" +employeeVO.getEmail2());
 		employeeVO.setConvertJoin_day(getConvertDate(employeeVO.getJoin_day()));
 		employeeVO.setConvertRetire_day(getConvertDate(employeeVO.getRetire_day()));
-		
-		if(employeeVO.getMil_yn().equals("2") || employeeVO.getMil_yn().equals(" ")){
+		if(employeeVO.getMil_yn().equals("2")){
 			employeeVO.setMil_type("");
 			employeeVO.setMil_level("");
 			employeeVO.setMil_startdate("");
