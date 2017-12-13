@@ -2,8 +2,11 @@ package kr.koreait.SpringMVC_Mybatis.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +24,7 @@ import kr.koreait.SpringMVC_Mybatis.vo.FileUploadVO;
 public class FileProcessingController {
 	private final static Logger logger = LoggerFactory.getLogger(FileProcessingController.class);
 	private static final String UPLOAD_DIRECTORY = "D://myGit/SpringMVC_Mybatis/src/main/webapp/resources/uploadFiles";
-	@RequestMapping(value="imageUpload",method=RequestMethod.POST ,name="iamgeUploadCtrl")
+	@RequestMapping(value="imageUpload",method=RequestMethod.POST ,name="iamgeUploadCtrl",produces="text/plain;charset=UTF-8")
 	public @ResponseBody String iamgeUploadCtrl(FileUploadVO fileUploadVO)throws Exception{
 		logger.info("uploadCtrl");
 		File updFile = multipartToFile(fileUploadVO.getImageUpload());
@@ -32,7 +35,7 @@ public class FileProcessingController {
 		map.put("filePath", path);
 		return new Gson().toJson(map);
 	}
-	@RequestMapping(value="carrierUpload",method=RequestMethod.POST ,name="carrierUploadCtrl")
+	@RequestMapping(value="carrierUpload",method=RequestMethod.POST ,name="carrierUploadCtrl", produces="text/plain;charset=UTF-8")
 	public @ResponseBody String carrierUploadCtrl(FileUploadVO fileUploadVO)throws Exception{
 		logger.info("carrierUploadCtrl");
 		File updFile = multipartToFile(fileUploadVO.getCarrierUpload());
@@ -43,7 +46,7 @@ public class FileProcessingController {
 		map.put("filePath", path);
 		return new Gson().toJson(map);
 	}
-	@RequestMapping(value="cmp_reg_imageUpload",method=RequestMethod.POST ,name="cmp_reg_imageUploadCtrl")
+	@RequestMapping(value="cmp_reg_imageUpload",method=RequestMethod.POST ,name="cmp_reg_imageUploadCtrl", produces="text/plain;charset=UTF-8")
 	public @ResponseBody String cmp_reg_imageUploadCtrl(FileUploadVO fileUploadVO)throws Exception{
 		logger.info("cmp_reg_imageUploadCtrl");
 		File updFile = multipartToFile(fileUploadVO.getCmp_reg_imageUpload());

@@ -83,7 +83,6 @@ public class SearchController {
 		try{
 			currentPage =Integer.parseInt(request.getParameter("currentPage"));
 		}catch (Exception e) {}
-
 		EmployeePage EmployeeVOList = new EmployeePage(pageSize, totalCount, currentPage);
 		HashMap<String, Object> hmap = new HashMap<String, Object>();
 		hmap.put("startNo", EmployeeVOList.getStartNo());

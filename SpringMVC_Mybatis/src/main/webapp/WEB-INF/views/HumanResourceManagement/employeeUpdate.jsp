@@ -402,7 +402,6 @@
 						$("#cmp_reg_no").val(tmp);
 					}
 				});
-					
 				
 				// 주민번호 자동 하이픈
 				$("#reg_no").keyup(function() {
@@ -788,7 +787,7 @@
 				</tbody>
 			</table>
 		</form>
-				<!-- 미리보기 팝업창 form안에 있을 경우 submit 발생하기 때문에 form 밖에서 제어 -->
+		<!-- 미리보기 팝업창 form안에 있을 경우 submit 발생하기 때문에 form 밖에서 제어 -->
 		<div id="cmp_reg_image_modal">
 			<img id="cmp_reg_image_view" src="<c:out value="${myContext}"/>/resources/uploadFiles/${employeeVO.cmp_reg_image}">
 			<div style="text-align:right;">

@@ -34,6 +34,11 @@
 			#phone,#hp,#salary,#reg_no,#years,#sabun,#cmp_reg_no{
 				text-align:right;
 			}
+			
+			#carrierUpload,#cmp_reg_imageUpload,#imageUpload{
+				display:none; 
+			}
+
 		</style>
 		<script>
 		 	// 연봉 콤마 나타내는 함수
@@ -127,7 +132,6 @@
 				    id: "carrier_modal" // 모달창 아이디 지정
 				});
 				
-				
 				// 미필시 테이블 없애기
 			    $('#mil_yn').change(function(){
 					if($('#mil_yn').val()=="1"){
@@ -138,7 +142,7 @@
 			    });
 				
 				// 이미지 업로드
-					$('#imageUploadBtn').click(function(){
+					$('#imageUpload').on('change',function(){
 							var form = $('<form></form>');
 							var formData = new FormData(form);
 							formData.append('imageUpload', $('#imageUpload')[0].files[0]);
@@ -167,9 +171,8 @@
 								alert('이미지 등록 해야함!');
 							}		
 						});
-				
 				// 이력서 업로드
-				$('#carrierUploadBtn').click(function(){
+ 				$('#carrierUpload').on('change', function(){
 					var form = $('<form></form>');
 					var formData = new FormData(form);
 					formData.append('carrierUpload', $('#carrierUpload')[0].files[0]);
@@ -199,6 +202,7 @@
 					}		
 				});	
 				
+
 				// 이력서 업로드 미리보기
 				$('#carrierUploadView').click(function() {
 					if($('#carrier').val()==""){
@@ -209,7 +213,7 @@
 				});
 				
 				// 사업자등록증 업로드
-				$('#cmp_reg_imageUploadBtn').click(function(){
+				$('#cmp_reg_imageUpload').on('change',function(){
 					var form = $('<form></form>');
 					var formData = new FormData(form);
 					formData.append('cmp_reg_imageUpload', $('#cmp_reg_imageUpload')[0].files[0]);
@@ -361,7 +365,6 @@
 					}
 				});
 					
-				
 				// 주민번호 자동 하이픈
 				$("#reg_no").keyup(function() {
 					var textinput = $("#reg_no").val();
@@ -498,10 +501,8 @@
 								<img id="humanImage" class="humanImageSize" src="<c:out value="${myContext}"/>/resources/image/human.png">
 								<input type="hidden" name="human_image" id="human_image" value="">
 							</div>
-							<div class="btn-group" style="width:327px">
-								<input type="file" name="imageUpload" id="imageUpload" class="form-control btn btn-info"/>
-								<button type="button" id="imageUploadBtn" class="btn btn-primary"><i class="fa fa-camera" aria-hidden="true"></i> 등록</button>
-							</div>
+								<input type="file" name="imageUpload" id="imageUpload" class="btn btn-info"/>
+								<label for="imageUpload" class="form-control btn btn-info"><i class="fa fa-camera" aria-hidden="true"></i> 등록</label>
 						</td>
 						<td><span>*</span>사번</td>
 							<td><input type="text" id="sabun" name="sabun" value="${sabun}" class="form-control" readonly="readonly"></td>
@@ -701,7 +702,7 @@
 						<td>
 							<div class="btn-group" style="width:327px">
 								<input type="file" name="cmp_reg_imageUpload" id="cmp_reg_imageUpload" class="form-control btn btn-info"/>
-								<button type="button" id="cmp_reg_imageUploadBtn" class="btn btn-primary">등록</button>
+								<label for="cmp_reg_imageUpload" class="btn btn-primary">등록</label>
 							</div>
 						</td>
 					</tr>
@@ -719,7 +720,7 @@
 						<td>
 							<div class="btn-group" style="width:327px">
 								<input type="file" name="carrierUpload" id="carrierUpload" class="form-control btn btn-info"/>
-								<button type="button" id="carrierUploadBtn" class="btn btn-primary"><i class="fa fa-camera" aria-hidden="true"></i> 등록</button>
+								<label for="carrierUpload" class="btn btn-primary">파일업로드</label>
 							</div>
 						</td>
 					</tr>
@@ -743,5 +744,4 @@
 			</div>
 		</div>
 	</body>
-
 </html>
