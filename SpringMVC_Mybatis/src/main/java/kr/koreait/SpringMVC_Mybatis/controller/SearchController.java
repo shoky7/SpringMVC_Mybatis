@@ -96,9 +96,13 @@ public class SearchController {
 	public String SearchCtrlCtrl(EmployeeVO employeeVO,Model model){
 		logger.info("searchUpdate");
 		employeeVO = employeeInquiryService.employeeInquiryBySabunSVC(employeeVO.getUpdateSabun());
-        employeeVO.setJoin_day(employeeVO.getJoin_day().substring(0, 10));
-        employeeVO.setRetire_day(employeeVO.getRetire_day().substring(0, 10));
-		model.addAttribute("employeeVO",employeeVO);
+		if(employeeVO.getJoin_day() != null){
+			employeeVO.setJoin_day(employeeVO.getJoin_day().substring(0, 10));
+		}
+		if(employeeVO.getRetire_day() != null){
+			employeeVO.setRetire_day(employeeVO.getRetire_day().substring(0, 10));
+		}
+        model.addAttribute("employeeVO",employeeVO);
 		modelData(model);
 		return "HumanResourceManagement/employeeUpdate";
 	}

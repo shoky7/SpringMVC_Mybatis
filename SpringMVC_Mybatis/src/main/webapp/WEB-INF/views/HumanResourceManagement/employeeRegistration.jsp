@@ -17,7 +17,7 @@
 		<script src="<c:out value="${myContext}"/>/resources/assets/bootstrap/js/bootstrap.min.js"></script>
 		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 		<style>
-		#cmp_reg_image_modal,#carrier_modal{display:none;background-color:#FFFFFF;position:absolute;top:10px;left:200px;padding:10px;border:2px solid #E2E2E2;z-Index:9999}
+			#cmp_reg_image_modal,#carrier_modal{display:none;background-color:#FFFFFF;position:absolute;top:10px;left:200px;padding:10px;border:2px solid #E2E2E2;z-Index:9999}
 			span{ color:red; }
 			#pwdcheak{
 				color:red;
@@ -37,6 +37,9 @@
 			
 			#carrierUpload,#cmp_reg_imageUpload,#imageUpload{
 				display:none; 
+			}
+			#cmp_reg_image_view{
+				width:400px; height:500px;
 			}
 
 		</style>
@@ -119,18 +122,6 @@
 				}
 			}
 			$(document).ready(function() {
-				//오늘 날짜.
-				document.getElementById('join_day').valueAsDate = new Date();
-				document.getElementById('retire_day').valueAsDate = new Date();
-				document.getElementById('mil_startdate').valueAsDate = new Date();
-				document.getElementById('mil_enddate').valueAsDate = new Date();
-				// 모달창 인스턴트 생성
-				var mycmp_reg_image_modal = new Example.Modal({
-				    id: "cmp_reg_image_modal" // 모달창 아이디 지정
-				});
-				var mycarrier_modal = new Example.Modal({
-				    id: "carrier_modal" // 모달창 아이디 지정
-				});
 				
 				// 미필시 테이블 없애기
 			    $('#mil_yn').change(function(){
@@ -140,6 +131,33 @@
 						$('#mil').hide();
 					}
 			    });
+			    // 입사, 퇴사 날짜비교
+				$('#retire_day').on('change',function(){
+			        var startDate = $( "input[name='join_day']" ).val();
+			        var startDateArr = startDate.split('-');
+			        var endDate = $( "input[name='retire_day']" ).val();
+			        var endDateArr = endDate.split('-');
+			        var startDateCompare = new Date(startDateArr[0], startDateArr[1], startDateArr[2]);
+			        var endDateCompare = new Date(endDateArr[0], endDateArr[1], endDateArr[2]);
+			        if(startDateCompare.getTime() > endDateCompare.getTime()) {
+			            alert("입사일자보다 늦은 날짜로 입력하세요");
+			            $('#retire_day').val("");
+			        }
+				});
+			    // 입영, 전역 날짜비교
+				$('#mil_enddate').on('change',function(){
+			        var startDate = $( "input[name='mil_startdate']" ).val();
+			        var startDateArr = startDate.split('-');
+			        var endDate = $( "input[name='mil_enddate']" ).val();
+			        var endDateArr = endDate.split('-');
+			        var startDateCompare = new Date(startDateArr[0], startDateArr[1], startDateArr[2]);
+			        var endDateCompare = new Date(endDateArr[0], endDateArr[1], endDateArr[2]);
+			        if(startDateCompare.getTime() > endDateCompare.getTime()) {
+			            alert("입영일자보다 늦은 날짜로 입력하세요.");
+			            $('#mil_enddate').val("");
+			        }
+				});
+				
 				
 				// 이미지 업로드
 					$('#imageUpload').on('change',function(){
@@ -202,7 +220,14 @@
 					}		
 				});	
 				
-
+				// 모달창 인스턴트 생성
+				var mycmp_reg_image_modal = new Example.Modal({
+				    id: "cmp_reg_image_modal" // 모달창 아이디 지정
+				});
+				var mycarrier_modal = new Example.Modal({
+				    id: "carrier_modal" // 모달창 아이디 지정
+				});
+				
 				// 이력서 업로드 미리보기
 				$('#carrierUploadView').click(function() {
 					if($('#carrier').val()==""){
@@ -502,7 +527,7 @@
 								<input type="hidden" name="human_image" id="human_image" value="">
 							</div>
 								<input type="file" name="imageUpload" id="imageUpload" class="btn btn-info"/>
-								<label for="imageUpload" class="form-control btn btn-info"><i class="fa fa-camera" aria-hidden="true"></i> 등록</label>
+								<label for="imageUpload" class="form-control btn btn-info"><i class="fa fa-camera" aria-hidden="true"></i> 사진올리기</label>
 						</td>
 						<td><span>*</span>사번</td>
 							<td><input type="text" id="sabun" name="sabun" value="${sabun}" class="form-control" readonly="readonly"></td>
@@ -731,7 +756,7 @@
 			</table>
 		</form>
 				<!-- 미리보기 팝업창 form안에 있을 경우 submit 발생하기 때문에 form 밖에서 제어 -->
-		<div id="cmp_reg_image_modal" style="top-align:-200px;">
+		<div id="cmp_reg_image_modal">
 			<img id="cmp_reg_image_view" src="<c:out value="${myContext}"/>/resources/image/human.png">
 			<div style="text-align:right;">
 				<button class="js_close">닫기</button>

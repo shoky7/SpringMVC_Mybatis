@@ -61,8 +61,8 @@
 	<insert id="setRegistration" parameterType="kr.koreait.SpringMVC_Mybatis.vo.EmployeeVO">
 		insert into insa values (
 			sabun_seq.nextval,
-			#{convertJoin_day},
-			#{convertRetire_day},
+			#{convertJoin_day, jdbcType=DATE},
+			#{convertRetire_day, jdbcType=DATE},
 			#{put_yn},
 			#{name},
 			#{reg_no},

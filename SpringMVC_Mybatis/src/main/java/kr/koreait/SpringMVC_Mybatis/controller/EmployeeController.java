@@ -77,8 +77,12 @@ public class EmployeeController {
 	public String EmployeeUpdateFormCtrl(EmployeeVO employeeVO,Model model){
 		logger.info("EmployeeUpdateFormCtrl");
 		employeeVO = employeeInquiryService.employeeInquiryBySabunSVC(employeeVO.getSabun());
-        employeeVO.setJoin_day(employeeVO.getJoin_day().substring(0, 10));
-        employeeVO.setRetire_day(employeeVO.getRetire_day().substring(0, 10));
+		if(employeeVO.getJoin_day() != null){
+			employeeVO.setJoin_day(employeeVO.getJoin_day().substring(0, 10));
+		}
+		if(employeeVO.getRetire_day() != null){
+			employeeVO.setRetire_day(employeeVO.getRetire_day().substring(0, 10));
+		}
 		model.addAttribute("employeeVO",employeeVO);
 		modelData(model);
 		return "HumanResourceManagement/employeeUpdate";

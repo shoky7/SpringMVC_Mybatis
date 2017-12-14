@@ -3,8 +3,8 @@
 <mapper namespace="kr.koreait.SpringMVC_Mybatis.mapper.EmployeeUpdate">
 	<update id="employeeUpdateByVO" parameterType="kr.koreait.SpringMVC_Mybatis.vo.EmployeeVO">
 		UPDATE insa set 
-		join_day = #{convertJoin_day},
-		retire_day = #{convertRetire_day},
+		join_day = #{convertJoin_day, jdbcType=DATE},
+		retire_day = #{convertRetire_day, jdbcType=DATE},
 		put_yn = #{put_yn},
 		name = #{name},
 		reg_no = #{reg_no},

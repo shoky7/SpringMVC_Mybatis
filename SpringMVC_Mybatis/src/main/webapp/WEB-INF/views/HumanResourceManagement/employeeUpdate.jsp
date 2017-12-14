@@ -34,6 +34,10 @@
 			#phone,#hp,#salary,#reg_no,#years,#sabun,#cmp_reg_no{
 				text-align:right;
 			}
+			#carrierUpload,#cmp_reg_imageUpload,#imageUpload{
+				display:none; 
+			}			
+
 		</style>
 		<script>
 
@@ -170,7 +174,34 @@
 						$('#mil').hide();
 					}
 			    });		
-					
+				
+			    // 입사, 퇴사 날짜비교
+				$('#retire_day').on('change',function(){
+			        var startDate = $( "input[name='join_day']" ).val();
+			        var startDateArr = startDate.split('-');
+			        var endDate = $( "input[name='retire_day']" ).val();
+			        var endDateArr = endDate.split('-');
+			        var startDateCompare = new Date(startDateArr[0], startDateArr[1], startDateArr[2]);
+			        var endDateCompare = new Date(endDateArr[0], endDateArr[1], endDateArr[2]);
+			        if(startDateCompare.getTime() > endDateCompare.getTime()) {
+			            alert("입사일자보다 늦은 날짜로 입력하세요");
+			            $('#retire_day').val("");
+			        }
+				});
+				// 입영, 전역 날짜비교
+				$('#mil_enddate').on('change',function(){
+			        var startDate = $( "input[name='mil_startdate']" ).val();
+			        var startDateArr = startDate.split('-');
+			        var endDate = $( "input[name='mil_enddate']" ).val();
+			        var endDateArr = endDate.split('-');
+			        var startDateCompare = new Date(startDateArr[0], startDateArr[1], startDateArr[2]);
+			        var endDateCompare = new Date(endDateArr[0], endDateArr[1], endDateArr[2]);
+			        if(startDateCompare.getTime() > endDateCompare.getTime()) {
+			            alert("입영일자보다 늦은 날짜로 입력하세요.");
+			            $('#mil_enddate').val("");
+			        }
+				});
+				
 				// 모달창 인스턴트 생성
 				var mycmp_reg_image_modal = new Example.Modal({
 				    id: "cmp_reg_image_modal" // 모달창 아이디 지정
@@ -179,7 +210,7 @@
 				    id: "carrier_modal" // 모달창 아이디 지정
 				});
 				// 이미지 업로드
-					$('#imageUploadBtn').click(function(){
+					$('#imageUpload').on('change',function(){
 							var form = $('<form></form>');
 							var formData = new FormData(form);
 							formData.append('imageUpload', $('#imageUpload')[0].files[0]);
@@ -210,7 +241,7 @@
 						});
 				
 				// 이력서 업로드
-				$('#carrierUploadBtn').click(function(){
+				$('#carrierUpload').on('change',function(){
 					var form = $('<form></form>');
 					var formData = new FormData(form);
 					formData.append('carrierUpload', $('#carrierUpload')[0].files[0]);
@@ -251,7 +282,7 @@
 				});
 				
 				// 사업자등록증 업로드
-				$('#cmp_reg_imageUploadBtn').click(function(){
+				$('#cmp_reg_imageUpload').on('change',function(){
 					var form = $('<form></form>');
 					var formData = new FormData(form);
 					formData.append('cmp_reg_imageUpload', $('#cmp_reg_imageUpload')[0].files[0]);
@@ -528,7 +559,6 @@
 	    </ul>
 	      </div>
 	    </nav>
-    
 		<h3>&nbsp &nbsp직원상세정보</h3>
 	
 		<div align="right">
@@ -537,7 +567,6 @@
 			<button type="button" class="btn btn-primary" onclick = "employeeDelete(${employeeVO.sabun})">삭제</button>
 			<button type="button" class="btn btn-primary" onclick = "location.href ='/SpringMVC_Mybatis/index'">메인화면</button>
 		</div>
-		
 		<form id="employeeDelete" action= "/SpringMVC_Mybatis/employee/employeeDelete" method="post">
 			<input type="hidden" name="updateSabun" id="updateSabun">
 		</form>
@@ -557,10 +586,8 @@
 								<img id="humanImage" class="humanImageSize" src="<c:out value="${myContext}"/>/resources/uploadFiles/${employeeVO.human_image}">
 							</div>
 						</c:if>
-							<div class="btn-group" style="width:327px">
 								<input type="file" name="imageUpload" id="imageUpload" class="form-control btn btn-info"/>
-								<button type="button" id="imageUploadBtn" class="btn btn-primary"><i class="fa fa-camera" aria-hidden="true"></i> 등록</button>
-							</div>
+								<label for="imageUpload" class="form-control btn btn-info"><i class="fa fa-camera" aria-hidden="true"></i> 사진올리기</label>
 						</td>
 						<td><span>*</span>사번</td>
 							<td><input type="text" id="sabun" name="sabun" value="${employeeVO.sabun}" class="form-control" readonly="readonly"></td>
@@ -760,7 +787,7 @@
 						<td>
 							<div class="btn-group" style="width:327px">
 								<input type="file" name="cmp_reg_imageUpload" id="cmp_reg_imageUpload" class="form-control btn btn-info"/>
-								<button type="button" id="cmp_reg_imageUploadBtn" class="btn btn-primary">등록</button>
+								<label for="cmp_reg_imageUpload" class="btn btn-primary">등록</label>
 							</div>
 						</td>
 					</tr>
@@ -777,7 +804,7 @@
 						<td>
 							<div class="btn-group" style="width:327px">
 								<input type="file" name="carrierUpload" id="carrierUpload" class="form-control btn btn-info"/>
-								<button type="button" id="carrierUploadBtn" class="btn btn-primary"><i class="fa fa-camera" aria-hidden="true"></i> 등록</button>
+								<label for="carrierUpload" class="btn btn-primary">파일업로드</label>
 							</div>
 						</td>
 					</tr>

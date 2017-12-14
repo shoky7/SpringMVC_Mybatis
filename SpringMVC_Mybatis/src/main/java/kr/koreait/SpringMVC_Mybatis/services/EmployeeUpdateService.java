@@ -22,8 +22,13 @@ public class EmployeeUpdateService {
 		logger.info("employeeUpdateSVC");
 		employeeVO.setSalary(employeeVO.getSalary().replace(",", ""));
 		employeeVO.setEmail(employeeVO.getEmail()+ "@" +employeeVO.getEmail2());
-		employeeVO.setConvertJoin_day(getConvertDate(employeeVO.getJoin_day()));
-		employeeVO.setConvertRetire_day(getConvertDate(employeeVO.getRetire_day()));
+		if(employeeVO.getJoin_day() != ""){
+			employeeVO.setConvertJoin_day(getConvertDate(employeeVO.getJoin_day()));
+		}
+		if(employeeVO.getRetire_day() != ""){
+			employeeVO.setConvertRetire_day(getConvertDate(employeeVO.getRetire_day()));
+		}
+		System.out.println(employeeVO.getMil_yn());
 		if(employeeVO.getMil_yn().equals("2")){
 			employeeVO.setMil_type("");
 			employeeVO.setMil_level("");
