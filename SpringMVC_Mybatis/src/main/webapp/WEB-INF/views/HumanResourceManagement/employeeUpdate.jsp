@@ -188,7 +188,34 @@
 			            $('#retire_day').val("");
 			        }
 				});
+			    
+				$('#join_day').on('change',function(){
+			        var startDate = $( "input[name='join_day']" ).val();
+			        var startDateArr = startDate.split('-');
+			        var endDate = $( "input[name='retire_day']" ).val();
+			        var endDateArr = endDate.split('-');
+			        var startDateCompare = new Date(startDateArr[0], startDateArr[1], startDateArr[2]);
+			        var endDateCompare = new Date(endDateArr[0], endDateArr[1], endDateArr[2]);
+			        if(startDateCompare.getTime() > endDateCompare.getTime()) {
+			            alert("퇴사일자보다 빠른 날짜로 입력하세요");
+			            $('#join_day').val("");
+			        }
+				});
+				
 				// 입영, 전역 날짜비교
+				$('#mil_startdate').on('change',function(){
+			        var startDate = $( "input[name='mil_startdate']" ).val();
+			        var startDateArr = startDate.split('-');
+			        var endDate = $( "input[name='mil_enddate']" ).val();
+			        var endDateArr = endDate.split('-');
+			        var startDateCompare = new Date(startDateArr[0], startDateArr[1], startDateArr[2]);
+			        var endDateCompare = new Date(endDateArr[0], endDateArr[1], endDateArr[2]);
+			        if(startDateCompare.getTime() > endDateCompare.getTime()) {
+			            alert("전역일자보다 빠른 날짜로 입력하세요.");
+			            $('#mil_startdate').val("");
+			        }
+				});
+				
 				$('#mil_enddate').on('change',function(){
 			        var startDate = $( "input[name='mil_startdate']" ).val();
 			        var startDateArr = startDate.split('-');

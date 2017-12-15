@@ -18,6 +18,7 @@ public class EmployeeSearchService {
 	private EmployeeSearch employeeSearch;
 	public ArrayList<EmployeeVO> employeeSearchSVC(HashMap<String, Object> hmap) {
 		logger.info("employeeSearchSVC()");
+		System.out.println(hmap.get("employeeVO"));
 		return employeeSearch.EmployeeSearch(hmap);
 	}
 	public int SearchCount(EmployeeVO employeeVO) {

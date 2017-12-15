@@ -32,10 +32,12 @@
 				and pos_gbn_code = #{employeeVO.pos_gbn_code}
 			</if>
 			<if test="employeeVO.join_day != ''">
-				and join_day = #{employeeVO.join_day}
+					and join_day >= '2017-12-01'
 			</if>
 			<if test="employeeVO.retire_day != ''">
-				and retire_day = #{employeeVO.retire_day}
+				<![CDATA[
+					and retire_day <= to_date(#{employeeVO.retire_day},'yyyy-mm-dd')
+				]]>
 			</if>
 			<if test="employeeVO.job_type != ''">
 				and job_type = #{employeeVO.job_type}

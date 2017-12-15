@@ -11,6 +11,7 @@ public class EmployeeVO {
 	private String put_yn;
 	private String name;
 	private String reg_no;
+	private String reg_no2;
 	private String eng_name;
 	private String phone;
 	private String hp;
@@ -98,6 +99,12 @@ public class EmployeeVO {
 	}
 	public void setReg_no(String reg_no) {
 		this.reg_no = reg_no;
+	}
+	public String getReg_no2() {
+		return reg_no2;
+	}
+	public void setReg_no2(String reg_no2) {
+		this.reg_no2 = reg_no2;
 	}
 	public String getEng_name() {
 		return eng_name;
@@ -288,16 +295,19 @@ public class EmployeeVO {
 	}
 	@Override
 	public String toString() {
-		return "EmployeeVO [sabun=" + sabun + ", join_day=" + join_day + ", retire_day=" + retire_day + ", put_yn="
+		return "EmployeeVO [sabun=" + sabun + ", join_day=" + join_day + ", retire_day=" + retire_day
+				+ ", convertJoin_day=" + convertJoin_day + ", convertRetire_day=" + convertRetire_day + ", put_yn="
 				+ put_yn + ", name=" + name + ", reg_no=" + reg_no + ", eng_name=" + eng_name + ", phone=" + phone
 				+ ", hp=" + hp + ", carrier=" + carrier + ", pos_gbn_code=" + pos_gbn_code + ", cmp_reg_no="
 				+ cmp_reg_no + ", cmp_reg_image=" + cmp_reg_image + ", sex=" + sex + ", years=" + years + ", email="
-				+ email + ", zip=" + zip + ", addr1=" + addr1 + ", addr2=" + addr2 + ", dept_code=" + dept_code
-				+ ", join_gbn_code=" + join_gbn_code + ", id=" + id + ", pwd=" + pwd + ", salary=" + salary
-				+ ", kosa_reg_yn=" + kosa_reg_yn + ", kosa_class_code=" + kosa_class_code + ", mil_yn=" + mil_yn
-				+ ", mil_type=" + mil_type + ", mil_level=" + mil_level + ", mil_startdate=" + mil_startdate
-				+ ", mil_enddate=" + mil_enddate + ", job_type=" + job_type + ", gart_level=" + gart_level
-				+ ", self_intro=" + self_intro + ", crm_name=" + crm_name + "]";
+				+ email + ", email2=" + email2 + ", zip=" + zip + ", addr1=" + addr1 + ", addr2=" + addr2
+				+ ", dept_code=" + dept_code + ", join_gbn_code=" + join_gbn_code + ", id=" + id + ", pwd=" + pwd
+				+ ", salary=" + salary + ", kosa_reg_yn=" + kosa_reg_yn + ", kosa_class_code=" + kosa_class_code
+				+ ", mil_yn=" + mil_yn + ", mil_type=" + mil_type + ", mil_level=" + mil_level + ", mil_startdate="
+				+ mil_startdate + ", mil_enddate=" + mil_enddate + ", job_type=" + job_type + ", gart_level="
+				+ gart_level + ", self_intro=" + self_intro + ", crm_name=" + crm_name + ", human_image=" + human_image
+				+ ", updateSabun=" + updateSabun + "]";
 	}
+
 	
 }

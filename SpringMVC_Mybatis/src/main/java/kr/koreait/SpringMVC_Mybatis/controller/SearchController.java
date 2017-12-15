@@ -1,5 +1,8 @@
 package kr.koreait.SpringMVC_Mybatis.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -70,7 +73,7 @@ public class SearchController {
 		return "HumanResourceManagement/search";
 	}
 	@RequestMapping(value="searchCtrl", method=RequestMethod.POST, name="searchCtrl")
-	public String searchCtrl(EmployeeVO employeeVO,Model model,HttpServletRequest request){
+	public String searchCtrl(EmployeeVO employeeVO,Model model,HttpServletRequest request) throws ParseException{
 		logger.info("searchCtrl");
 		modelData(model);
 		model.addAttribute("employeeVO",employeeVO);

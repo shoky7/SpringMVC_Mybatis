@@ -5,7 +5,7 @@
 <html>
 	<head>
 		<style>
-		#sabun,#sabun_result,#reg_no_result,#hp_result,#retire_day_result,#join_day_result,#salary_result{ text-align:right; }
+		#sabun,#sabun_result,#salary_result{ text-align:right; }
 		</style>
 		<meta charset="UTF-8">
 		<title>직원리스트</title>
@@ -44,7 +44,61 @@
 				textinput = textinput.replace(/[^0-9]/g, '');
 				$("#sabun").val(textinput);
 			});
-		});
+		    // 입사, 퇴사 날짜비교
+			$('#retire_day').on('change',function(){
+		        var startDate = $( "input[name='join_day']" ).val();
+		        var startDateArr = startDate.split('-');
+		        var endDate = $( "input[name='retire_day']" ).val();
+		        var endDateArr = endDate.split('-');
+		        var startDateCompare = new Date(startDateArr[0], startDateArr[1], startDateArr[2]);
+		        var endDateCompare = new Date(endDateArr[0], endDateArr[1], endDateArr[2]);
+		        if(startDateCompare.getTime() > endDateCompare.getTime()) {
+		            alert("입사일자보다 늦은 날짜로 입력하세요");
+		            $('#retire_day').val("");
+		        }
+			});
+		    
+			$('#join_day').on('change',function(){
+		        var startDate = $( "input[name='join_day']" ).val();
+		        var startDateArr = startDate.split('-');
+		        var endDate = $( "input[name='retire_day']" ).val();
+		        var endDateArr = endDate.split('-');
+		        var startDateCompare = new Date(startDateArr[0], startDateArr[1], startDateArr[2]);
+		        var endDateCompare = new Date(endDateArr[0], endDateArr[1], endDateArr[2]);
+		        if(startDateCompare.getTime() > endDateCompare.getTime()) {
+		            alert("퇴사일자보다 빠른 날짜로 입력하세요");
+		            $('#join_day').val("");
+		        }
+			});
+			
+			// 입영, 전역 날짜비교
+			$('#mil_startdate').on('change',function(){
+		        var startDate = $( "input[name='mil_startdate']" ).val();
+		        var startDateArr = startDate.split('-');
+		        var endDate = $( "input[name='mil_enddate']" ).val();
+		        var endDateArr = endDate.split('-');
+		        var startDateCompare = new Date(startDateArr[0], startDateArr[1], startDateArr[2]);
+		        var endDateCompare = new Date(endDateArr[0], endDateArr[1], endDateArr[2]);
+		        if(startDateCompare.getTime() > endDateCompare.getTime()) {
+		            alert("전역일자보다 빠른 날짜로 입력하세요.");
+		            $('#mil_startdate').val("");
+		        }
+			});
+			
+			$('#mil_enddate').on('change',function(){
+		        var startDate = $( "input[name='mil_startdate']" ).val();
+		        var startDateArr = startDate.split('-');
+		        var endDate = $( "input[name='mil_enddate']" ).val();
+		        var endDateArr = endDate.split('-');
+		        var startDateCompare = new Date(startDateArr[0], startDateArr[1], startDateArr[2]);
+		        var endDateCompare = new Date(endDateArr[0], endDateArr[1], endDateArr[2]);
+		        if(startDateCompare.getTime() > endDateCompare.getTime()) {
+		            alert("입영일자보다 늦은 날짜로 입력하세요.");
+		            $('#mil_enddate').val("");
+		        }
+			});
+		}); // ready
+		
 		</script>
 	</head>
 	<body>
@@ -116,7 +170,7 @@
 					</td>
 					<td>입사일자 &nbsp</td>
 					<td>
-						<input type=date name="join_day" id="join_day" class="form-control" >
+						<input type=date  name="join_day" id="join_day" class="form-control" >
 					</td>
 					<td>퇴사일자 &nbsp</td>
 					<td>
